@@ -25,6 +25,34 @@ pm.max_spare_servers = 3
 clear_env = no
 EOF
 
+# Remove default nginx page and write Laravel config
+rm -f /etc/nginx/sites-enabled/default
+rm -f /etc/nginx/conf.d/default.conf
+
+cat > /etc/nginx/conf.d/laravel.conf << 'EOF'
+server {
+    listen 80 default_server;
+    server_name _;
+    root /app/public;
+    index index.php index.html;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+}
+EOF
+
 php artisan migrate --force || true
 php-fpm &
 sleep 2
