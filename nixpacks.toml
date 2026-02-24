@@ -8,22 +8,9 @@ cmds = [
   'npm ci',
   'npm run prod',
   'mkdir -p /etc/nginx/conf.d',
-  'echo "server { listen 80 default_server; server_name _; root /app/public; index index.php index.html; location / { try_files \$uri \$uri/ /index.php?\$query_string; } location ~ \\.php$ { fastcgi_pass 127.0.0.1:9000; fastcgi_index index.php; fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name; include fastcgi_params; } location ~ /\\.ht { deny all; } }" > /etc/nginx/conf.d/default.conf'
+  'echo "server { listen 80 default_server; server_name _; root /app/public; index index.php index.html; location / { try_files \$uri \$uri/ /index.php?\$query_string; } location ~ \\.php$ { fastcgi_pass 127.0.0.1:9000; fastcgi_index index.php; fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name; include fastcgi_params; } location ~ /\\.ht { deny all; } }" > /etc/nginx/conf.d/default.conf',
+  'chmod +x /app/start.sh'
 ]
 
 [start]
-cmd = '''
-mkdir -p /nix/store/jxpzay1xrcphcd05wb7i7vysy89pkmn8-php-8.1.31/etc &&
-echo '[global]
-daemonize = no
-
-[www]
-listen = 127.0.0.1:9000
-pm = dynamic
-pm.max_children = 5
-pm.start_servers = 2
-pm.min_spare_servers = 1
-pm.max_spare_servers = 3
-clear_env = no' > /nix/store/jxpzay1xrcphcd05wb7i7vysy89pkmn8-php-8.1.31/etc/php-fpm.conf &&
-php-fpm & sleep 2 && nginx -g "daemon off;"
-'''
+cmd = '/app/start.sh'
