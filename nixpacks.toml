@@ -12,4 +12,4 @@ cmds = [
 ]
 
 [start]
-cmd = 'php artisan migrate --force && php-fpm & sleep 2 && nginx -g "daemon off;"'
+cmd = 'php-fpm & sleep 2 && nginx -g "daemon off;"'
