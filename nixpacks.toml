@@ -1,0 +1,13 @@
+[phases.setup]
+nixPkgs = ['php81', 'php81Packages.composer', 'nginx', 'nodejs_18']
+
+[phases.build]
+cmds = [
+  'composer install --ignore-platform-reqs --no-scripts',
+  'php artisan package:discover --ansi',
+  'npm ci',
+  'npm run prod'
+]
+
+[start]
+cmd = 'php artisan migrate --force && php-fpm & nginx -g "daemon off;"'
