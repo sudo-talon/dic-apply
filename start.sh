@@ -25,11 +25,26 @@ pm.max_spare_servers = 3
 clear_env = no
 EOF
 
-# Remove default nginx page and write Laravel config
-rm -f /etc/nginx/sites-enabled/default
-rm -f /etc/nginx/conf.d/default.conf
+# Find nginx config directory
+NGINX_CONF_DIR=""
+if [ -d /etc/nginx/conf.d ]; then
+    NGINX_CONF_DIR="/etc/nginx/conf.d"
+elif [ -d /etc/nginx/sites-enabled ]; then
+    NGINX_CONF_DIR="/etc/nginx/sites-enabled"
+else
+    # Find nginx config location
+    NGINX_CONF_DIR=$(nginx -T 2>/dev/null | grep "conf.d" | head -1 | awk '{print $2}' | xargs dirname 2>/dev/null)
+    mkdir -p "$NGINX_CONF_DIR"
+fi
 
-cat > /etc/nginx/conf.d/laravel.conf << 'EOF'
+echo "Using nginx config dir: $NGINX_CONF_DIR"
+
+# Remove default configs
+rm -f "$NGINX_CONF_DIR/default"
+rm -f "$NGINX_CONF_DIR/default.conf"
+
+# Write nginx config
+cat > "$NGINX_CONF_DIR/laravel.conf" << 'EOF'
 server {
     listen 80 default_server;
     server_name _;
