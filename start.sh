@@ -25,6 +25,7 @@ pm.max_spare_servers = 3
 clear_env = no
 EOF
 
+php artisan migrate --force
 php-fpm &
 sleep 2
 nginx -g "daemon off;"
