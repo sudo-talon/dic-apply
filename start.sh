@@ -25,45 +25,48 @@ pm.max_spare_servers = 3
 clear_env = no
 EOF
 
-# Find nginx config directory
-NGINX_CONF_DIR=""
-if [ -d /etc/nginx/conf.d ]; then
-    NGINX_CONF_DIR="/etc/nginx/conf.d"
-elif [ -d /etc/nginx/sites-enabled ]; then
-    NGINX_CONF_DIR="/etc/nginx/sites-enabled"
-else
-    # Find nginx config location
-    NGINX_CONF_DIR=$(nginx -T 2>/dev/null | grep "conf.d" | head -1 | awk '{print $2}' | xargs dirname 2>/dev/null)
-    mkdir -p "$NGINX_CONF_DIR"
-fi
+# Find the actual nginx config file
+NGINX_CONF=$(nginx -V 2>&1 | grep -o '\-\-conf-path=[^ ]*' | cut -d= -f2)
+echo "Nginx main config: $NGINX_CONF"
+NGINX_CONF_DIR=$(dirname "$NGINX_CONF")
+echo "Nginx config dir: $NGINX_CONF_DIR"
 
-echo "Using nginx config dir: $NGINX_CONF_DIR"
+# Write our Laravel server block directly into the main nginx config
+cat > "$NGINX_CONF" << 'EOF'
+worker_processes auto;
+error_log stderr;
+pid /tmp/nginx.pid;
 
-# Remove default configs
-rm -f "$NGINX_CONF_DIR/default"
-rm -f "$NGINX_CONF_DIR/default.conf"
+events {
+    worker_connections 1024;
+}
 
-# Write nginx config
-cat > "$NGINX_CONF_DIR/laravel.conf" << 'EOF'
-server {
-    listen 80 default_server;
-    server_name _;
-    root /app/public;
-    index index.php index.html;
+http {
+    include mime.types;
+    default_type application/octet-stream;
+    sendfile on;
+    keepalive_timeout 65;
 
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
+    server {
+        listen 80 default_server;
+        server_name _;
+        root /app/public;
+        index index.php index.html;
 
-    location ~ \.php$ {
-        fastcgi_pass 127.0.0.1:9000;
-        fastcgi_index index.php;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
+        location / {
+            try_files $uri $uri/ /index.php?$query_string;
+        }
 
-    location ~ /\.ht {
-        deny all;
+        location ~ \.php$ {
+            fastcgi_pass 127.0.0.1:9000;
+            fastcgi_index index.php;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            include fastcgi_params;
+        }
+
+        location ~ /\.ht {
+            deny all;
+        }
     }
 }
 EOF
