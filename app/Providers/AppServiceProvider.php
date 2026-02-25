@@ -63,7 +63,7 @@ class AppServiceProvider extends ServiceProvider
                 'setting' => null,
                 'user_languages' => collect(),
                 'schedule_setting' => null,
-                'topbarSetting' => null,
+                '#topbarSetting' => null,
                 'socialSetting' => null,
                 'footer_pages' => collect(),
             ]);
