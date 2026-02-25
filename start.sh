@@ -34,6 +34,7 @@ echo "      nginx conf path: $NGINX_CONF"
 # ── 4. Write nginx config ─────────────────────────────────────────
 echo "[3/7] Writing nginx configuration..."
 mkdir -p /var/log/nginx /var/cache/nginx /run
+mkdir -p "$(dirname $NGINX_CONF)"
 
 cat > "$NGINX_CONF" <<'EOF'
 user root;
@@ -68,7 +69,6 @@ http {
         root /app/public;
         index index.php index.html;
 
-        # Security headers
         add_header X-Frame-Options "SAMEORIGIN";
         add_header X-Content-Type-Options "nosniff";
         add_header X-XSS-Protection "1; mode=block";
@@ -104,7 +104,6 @@ echo "[4/7] Running Laravel bootstrap..."
 
 cd /app
 
-# Create storage directories if missing
 mkdir -p storage/app/public \
          storage/framework/cache/data \
          storage/framework/sessions \
@@ -112,15 +111,13 @@ mkdir -p storage/app/public \
          storage/logs \
          bootstrap/cache
 
-# Fix permissions
 chmod -R 775 storage bootstrap/cache
 
-# Only run these if APP_KEY is set
 if [ -n "$APP_KEY" ]; then
   echo "      Caching config, routes and views..."
-  php artisan config:cache  || echo "WARN: config:cache failed"
-  php artisan route:cache   || echo "WARN: route:cache failed"
-  php artisan view:cache    || echo "WARN: view:cache failed"
+  php artisan config:cache || echo "WARN: config:cache failed"
+  php artisan route:cache  || echo "WARN: route:cache failed"
+  php artisan view:cache   || echo "WARN: view:cache failed"
 else
   echo "WARN: APP_KEY not set, skipping artisan cache commands."
 fi
@@ -138,7 +135,7 @@ echo "      php-fpm found at: $PHP_FPM_BIN"
 $PHP_FPM_BIN -D
 echo "      PHP-FPM started."
 
-# ── 7. Start nginx (foreground to keep container alive) ───────────
+# ── 7. Start nginx ────────────────────────────────────────────────
 echo "[6/7] Starting nginx..."
 echo "============================================"
 echo " Application is live on port 80"
