@@ -15,7 +15,8 @@ nixPkgs = [
   'php81Extensions.zip',
   'nginx',
   'curl',
-  'wget'
+  'wget',
+  'php81Packages.composer'
 ]
 
 [phases.build]
