@@ -1,8 +1,15 @@
-# nixpacks.toml
 providers = ["php"]
 
 [phases.setup]
-nixPkgs = ["php83", "php83Extensions.pdo_mysql", "php83Extensions.mbstring", "php83Extensions.openssl", "php83Extensions.curl", "php83Extensions.zip", "composer"]
+nixPkgs = [
+  "php83",
+  "php83Extensions.curl",
+  "php83Extensions.mbstring",
+  "php83Extensions.openssl",
+  "php83Extensions.pdo_mysql",
+  "php83Extensions.zip",
+  "php83Packages.composer"
+]
 
 [phases.install]
 cmds = [
@@ -11,7 +18,6 @@ cmds = [
 
 [phases.build]
 cmds = [
-  "php artisan key:generate --force || true",
   "php artisan config:clear || true",
   "php artisan route:clear || true",
   "php artisan view:clear || true"
