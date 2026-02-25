@@ -18,11 +18,6 @@ nixPkgs = [
   'wget'
 ]
 
-[phases.install]
-cmds = [
-  'composer install --ignore-platform-reqs --no-interaction --prefer-dist --optimize-autoloader'
-]
-
 [phases.build]
 cmds = [
   'npm ci',
