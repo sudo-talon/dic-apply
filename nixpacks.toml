@@ -2,13 +2,13 @@ providers = ["php"]
 
 [phases.setup]
 nixPkgs = [
-  "php83",
-  "php83Extensions.curl",
-  "php83Extensions.mbstring",
-  "php83Extensions.openssl",
-  "php83Extensions.pdo_mysql",
-  "php83Extensions.zip",
-  "php83Packages.composer"
+  "php82",
+  "php82Extensions.curl",
+  "php82Extensions.mbstring",
+  "php82Extensions.openssl",
+  "php82Extensions.pdo_mysql",
+  "php82Extensions.zip",
+  "php82Packages.composer"
 ]
 
 [phases.install]
