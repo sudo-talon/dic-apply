@@ -14,8 +14,6 @@ nixPkgs = [
   'php81Extensions.openssl',
   'php81Extensions.zip',
   'nginx',
-  'nodejs-18_x',
-  'nodePackages.npm',
   'curl',
   'wget'
 ]
