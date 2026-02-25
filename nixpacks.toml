@@ -1,27 +1,8 @@
 [phases.setup]
-nixPkgs = [
-  'php81',
-  'php81Extensions.pdo',
-  'php81Extensions.pdo_mysql',
-  'php81Extensions.mbstring',
-  'php81Extensions.tokenizer',
-  'php81Extensions.xml',
-  'php81Extensions.ctype',
-  'php81Extensions.bcmath',
-  'php81Extensions.curl',
-  'php81Extensions.fileinfo',
-  'php81Extensions.gd',
-  'php81Extensions.openssl',
-  'php81Extensions.zip',
-  'nginx',
-  'curl',
-  'wget',
-  'php81Packages.composer'
-]
+nixPkgs = ['nginx']
 
 [phases.build]
 cmds = [
-  'npm ci',
   'npm run prod',
   'chmod +x /app/start.sh',
   'touch /app/nginx_conf_path.txt'
