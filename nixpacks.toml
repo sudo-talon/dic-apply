@@ -7,7 +7,9 @@ cmds = [
   'php artisan package:discover --ansi',
   'npm ci',
   'npm run prod',
-  'chmod +x /app/start.sh'
+  'chmod +x /app/start.sh',
+  'nginx -V 2>&1 | grep -o -- "--conf-path=[^ ]*" | cut -d= -f2 > /app/nginx_conf_path.txt',
+  'cat /app/nginx_conf_path.txt'
 ]
 
 [start]
