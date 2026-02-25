@@ -25,13 +25,10 @@ pm.max_spare_servers = 3
 clear_env = no
 EOF
 
-# Find the actual nginx config file
-NGINX_CONF=$(nginx -V 2>&1 | grep -o '\-\-conf-path=[^ ]*' | cut -d= -f2)
+# Read nginx config path saved at build time
+NGINX_CONF=$(cat /app/nginx_conf_path.txt | tr -d '[:space:]')
 echo "Nginx main config: $NGINX_CONF"
-NGINX_CONF_DIR=$(dirname "$NGINX_CONF")
-echo "Nginx config dir: $NGINX_CONF_DIR"
 
-# Write our Laravel server block directly into the main nginx config
 cat > "$NGINX_CONF" << 'EOF'
 worker_processes auto;
 error_log stderr;
