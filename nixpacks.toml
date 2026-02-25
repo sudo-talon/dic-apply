@@ -1,15 +1,17 @@
 [phases.setup]
-nixPkgs = ['php81', 'php81Packages.composer', 'nginx', 'nodejs_18']
+nixPkgs = ['php81', 'php81Extensions.pdo', 'php81Extensions.pdo_mysql', 'php81Extensions.mbstring', 'php81Extensions.tokenizer', 'php81Extensions.xml', 'php81Extensions.ctype', 'php81Extensions.json', 'php81Extensions.bcmath', 'php81Extensions.curl', 'php81Extensions.fileinfo', 'php81Extensions.gd', 'php81Extensions.openssl', 'php81Extensions.zip', 'nginx', 'nodejs-18_x', 'nodePackages.npm', 'curl', 'wget']
+
+[phases.install]
+cmds = [
+  'composer install --ignore-platform-reqs --no-interaction --prefer-dist --optimize-autoloader'
+]
 
 [phases.build]
 cmds = [
-  'composer install --ignore-platform-reqs --no-scripts',
-  'php artisan package:discover --ansi',
   'npm ci',
   'npm run prod',
   'chmod +x /app/start.sh',
-  'nginx -V 2>&1 | grep -o -- "--conf-path=[^ ]*" | cut -d= -f2 > /app/nginx_conf_path.txt',
-  'cat /app/nginx_conf_path.txt'
+  'touch /app/nginx_conf_path.txt'
 ]
 
 [start]
