@@ -25,3 +25,8 @@ yarn-error.log
 !/storage/framework/.gitignore
 /storage/app/*
 !/storage/app/.gitignore
+
+# Untrack duplicate root asset folders (assets are served from public/)
+/web/
+/dashboard/
+/uploads/
