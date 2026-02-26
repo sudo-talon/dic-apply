@@ -5,8 +5,9 @@
 <!-- Start Content-->
 <div class="card">
     <div class="card-body text-center">
-        <div class="mb-4">
-            <i class="feather icon-unlock auth-icon"></i>
+        
+            <div class="mb-4">
+            <img src="{{ asset('uploads/setting/dic-logo1.png') }}" alt="Logo" height="60">
         </div>
         <h3 class="mb-4">{{ __('auth_login_title') }}</h3>
 
@@ -61,9 +62,7 @@
         </p>
         @endif
 
-        @isset($setting->copyright_text)
-        <p class="mb-0 text-muted">&copy; {!! strip_tags($setting->copyright_text, '<a><b><br>') !!}</p>
-        @endisset
+         <p class="mb-0 text-muted">&copy; {{ date('Y') }} - DIC - UNN PG | design by Talongeeks</p>
     </div>
 </div>
 <!-- End Content-->

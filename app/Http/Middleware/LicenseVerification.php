@@ -16,12 +16,12 @@ class LicenseVerification
      */
     public function handle(Request $request, Closure $next)
     {
-        $license = config('services.envato.license');
+       // $license = config('services.envato.license');
 
-        if(strlen($license) != 32){
+       // if(strlen($license) != 32){
 
-            return redirect()->route('verify');
-        }
+          //  return redirect()->route('verify');
+       // }
 
         return $next($request);
     }

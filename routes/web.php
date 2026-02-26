@@ -19,8 +19,11 @@ use Illuminate\Support\Facades\Session;
 // Web Routes
 Route::middleware(['XSS'])->namespace('Web')->group(function () {
 
+    // Application Page Route
+    Route::get('/', function () { return redirect()->route('application.index'); });
+ 
     // Home Route
-    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/home', 'HomeController@index')->name('home');
     // Course Route
     Route::get('/course', 'CourseController@index')->name('course');
     Route::get('/course/{slug}', 'CourseController@show')->name('course.single');
