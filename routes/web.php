@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Session;
 Route::middleware(['XSS'])->namespace('Web')->group(function () {
 
     // Application Page Route
-    Route::get('/', function () { return redirect()->route('application.index'); });
+    Route::get('/', 'ApplicationController@index')->name('application.index');
  
     // Home Route
     Route::get('/home', 'HomeController@index')->name('home');
