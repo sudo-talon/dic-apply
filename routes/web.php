@@ -41,8 +41,8 @@ Route::middleware(['XSS'])->namespace('Web')->group(function () {
     Route::get('/page/{slug}', 'PageController@show')->name('page.single');
 
     // Application Route
-    Route::get('application', 'ApplicationController@index')->name('application.index');
-    Route::post('application', 'ApplicationController@store')->name('application.store');
+    Route::get('/application', 'ApplicationController@index')->name('application.index');
+    Route::post('/application', 'ApplicationController@store')->name('application.store');
 
 
     // SetCookie Route
