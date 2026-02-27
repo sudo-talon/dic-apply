@@ -21,8 +21,8 @@ class SettingSeeder extends Seeder
 
             'title'=>'University System',
             'meta_title'=>'University System',
-            'logo_path'=>'logo.png',
-            'favicon_path'=>'favicon.png',
+            'logo_path'=>'dic-logo1.png',
+            'favicon_path'=>'dic-logo1.png',
             'phone'=>'+880123456789',
             'email'=>'example@mail.com',
             'address'=>'Mirpur, Dhaka',
@@ -33,7 +33,7 @@ class SettingSeeder extends Seeder
             'currency'=>'USD',
             'currency_symbol'=>'$',
             'decimal_place'=>'2',
-            'copyright_text'=>'2022 - University System | Created By_ <a href="https://hitechparks.com/" target="_blank">Hi-Tech Parks</a>',
+            'copyright_text'=> date('Y'). '- DIC - UNN PG | Designed By_ <a href="https://talongeeks.com/" target="_blank">Talongeeks</a>',
             'status'=>'1'
 
         ]);

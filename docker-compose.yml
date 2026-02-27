@@ -1,0 +1,40 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: universitysystem_app
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: "3306"
+      DB_DATABASE: university
+      DB_USERNAME: university
+      DB_PASSWORD: secret
+    depends_on:
+      - mysql
+    command: sh -lc "composer install && php artisan key:generate && php artisan migrate --seed && php artisan storage:link && apache2-foreground"
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    container_name: universitysystem_mysql
+    environment:
+      MYSQL_DATABASE: university
+      MYSQL_USER: university
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: rootsecret
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+volumes:
+  mysql_data:

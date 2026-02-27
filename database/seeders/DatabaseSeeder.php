@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
         $this->call(AdminSeeder::class);
         $this->call(SettingSeeder::class);
+        $this->call(ApplicationSettingSeeder::class);
         $this->call(LanguageSeeder::class);
         $this->call(SMSSettingSeeder::class);
         $this->call(MailSettingSeeder::class);
