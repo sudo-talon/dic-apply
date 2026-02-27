@@ -31,6 +31,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         Paginator::useBootstrap();
+        // Force HTTPS in production
+    if (env('APP_ENV') === 'production') {
+        \Illuminate\Support\Facades\URL::forceScheme('https');
+    }
 
         try {
             $languages = Language::where('status', 1)->get();
@@ -68,5 +72,6 @@ class AppServiceProvider extends ServiceProvider
                 'footer_pages' => collect(),
             ]);
         }
+
     }
 }
