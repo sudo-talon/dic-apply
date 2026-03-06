@@ -291,35 +291,7 @@ function showFile($file, $label, $path){
 @endif
 
 </div>
-        <div class="row">
-            <div class="col-md-12">
-                <fieldset class="row gx-2 scheduler-border">
-                    <legend>{{ trans_choice('module_document', 2) }}</legend>
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>{{ __('field_title') }}</th>
-                                    <th>{{ __('field_action') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($row->documents as $document)
-                                <tr>
-                                    <td>{{ $document->title }}</td>
-                                    <td>
-                                        @if(is_file('uploads/'.$path.'/'.$document->attach))
-                                        <a href="{{ asset('uploads/'.$path.'/'.$document->attach) }}" class="btn btn-dark btn-sm" download><i class="fas fa-download"></i> {{ __('btn_download') }}</a>
-                                        @endif
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </fieldset>
-            </div>
-        </div>
+        
         <!-- [ Main Content ] end -->
     </div>
 </div>
