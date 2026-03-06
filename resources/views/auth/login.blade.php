@@ -62,7 +62,9 @@
         </p>
         @endif
 
-         <p class="mb-0 text-muted">&copy; {{ date('Y') }} - DIC - UNN PG | design by Talongeeks</p>
+          @isset($setting->copyright_text)
+        <p class="mb-0 text-muted">&copy; {!! strip_tags($setting->copyright_text, '<a><b><br>') !!}</p>
+        @endisset
     </div>
 </div>
 <!-- End Content-->

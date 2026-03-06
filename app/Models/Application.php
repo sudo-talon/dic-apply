@@ -44,4 +44,9 @@ class Application extends Model
     {
         return $this->belongsTo(District::class, 'permanent_district');
     }
+
+    public function documents()
+    {
+        return $this->belongsToMany(Document::class, 'document_student', 'student_id', 'document_id');
+    }
 }

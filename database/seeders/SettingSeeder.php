@@ -19,8 +19,8 @@ class SettingSeeder extends Seeder
 
         $setting = Setting::create([
 
-            'title'=>'University System',
-            'meta_title'=>'University System',
+            'title'=>'DIC - UNN PG',
+            'meta_title'=>'DIC - UNN PG',
             'logo_path'=>'dic-logo1.png',
             'favicon_path'=>'dic-logo1.png',
             'phone'=>'+880123456789',
