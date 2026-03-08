@@ -237,60 +237,63 @@
         </div>
 
         <div class="row">
-
-@php
-function showFile($file, $label, $path){
-    if(!$file) return;
-
-    $fullPath = 'uploads/'.$path.'/'.$file;
-
-    if(is_file($fullPath)){
-        $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-@endphp
-
-<div class="col-md-3 mb-3 text-center">
-
-@if(in_array($ext,['jpg','jpeg','png','gif','webp','bmp']))
-<a href="{{ asset($fullPath) }}" data-lightbox="gallery">
-    <img src="{{ asset($fullPath) }}" class="img-fluid rounded shadow-sm">
-</a>
-
-@elseif($ext == 'pdf')
-<a href="{{ asset($fullPath) }}" target="_blank" class="btn btn-danger btn-sm">
-    <i class="fas fa-file-pdf"></i> {{ $label }}
-</a>
-
-@else
-<a href="{{ asset($fullPath) }}" target="_blank" class="btn btn-secondary btn-sm">
-    <i class="fas fa-file"></i> {{ $label }}
-</a>
-@endif
-
-</div>
-
-@php
-    }
-}
-@endphp
-
-
-@if(field('application_school_transcript')->status == 1)
-    @php showFile($row->school_transcript, __('field_school_transcript'), $path); @endphp
-@endif
-
-@if(field('application_school_certificate')->status == 1)
-    @php showFile($row->school_certificate, __('field_school_certificate'), $path); @endphp
-@endif
-
-@if(field('application_collage_transcript')->status == 1)
-    @php showFile($row->collage_transcript, __('field_collage_transcript'), $path); @endphp
-@endif
-
-@if(field('application_collage_certificate')->status == 1)
-    @php showFile($row->collage_certificate, __('field_collage_certificate'), $path); @endphp
-@endif
-
-</div>
+            @if(field('application_school_transcript')->status == 1)
+                @if(is_file('uploads/'.$path.'/'.$row->school_transcript))
+                @php($file_ext = pathinfo($row->school_transcript, PATHINFO_EXTENSION))
+                <div class="col-md-3 text-center">
+                    @if(in_array($file_ext, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp']))
+                    <a href="{{ asset('uploads/'.$path.'/'.$row->school_transcript) }}" data-lightbox="gallery">
+                        <img src="{{ asset('uploads/'.$path.'/'.$row->school_transcript) }}" class="img-fluid">
+                    </a>
+                    @elseif($file_ext == 'pdf')
+                    <a href="{{ asset('uploads/'.$path.'/'.$row->school_transcript) }}" target="_blank"><i class="fas fa-file-pdf"></i> {{ __('field_school_transcript') }}</a>
+                    @endif
+                </div>
+                @endif
+            @endif
+            @if(field('application_school_certificate')->status == 1)
+                @if(is_file('uploads/'.$path.'/'.$row->school_certificate))
+                @php($file_ext = pathinfo($row->school_certificate, PATHINFO_EXTENSION))
+                <div class="col-md-3 text-center">
+                    @if(in_array($file_ext, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp']))
+                    <a href="{{ asset('uploads/'.$path.'/'.$row->school_certificate) }}" data-lightbox="gallery">
+                        <img src="{{ asset('uploads/'.$path.'/'.$row->school_certificate) }}" class="img-fluid">
+                    </a>
+                    @elseif($file_ext == 'pdf')
+                    <a href="{{ asset('uploads/'.$path.'/'.$row->school_certificate) }}" target="_blank"><i class="fas fa-file-pdf"></i> {{ __('field_school_certificate') }}</a>
+                    @endif
+                </div>
+                @endif
+            @endif
+            @if(field('application_collage_transcript')->status == 1)
+                @if(is_file('uploads/'.$path.'/'.$row->collage_transcript))
+                @php($file_ext = pathinfo($row->collage_transcript, PATHINFO_EXTENSION))
+                <div class="col-md-3 text-center">
+                    @if(in_array($file_ext, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp']))
+                    <a href="{{ asset('uploads/'.$path.'/'.$row->collage_transcript) }}" data-lightbox="gallery">
+                        <img src="{{ asset('uploads/'.$path.'/'.$row->collage_transcript) }}" class="img-fluid">
+                    </a>
+                    @elseif($file_ext == 'pdf')
+                    <a href="{{ asset('uploads/'.$path.'/'.$row->collage_transcript) }}" target="_blank"><i class="fas fa-file-pdf"></i> {{ __('field_collage_transcript') }}</a>
+                    @endif
+                </div>
+                @endif
+            @endif
+            @if(field('application_collage_certificate')->status == 1)
+                @if(is_file('uploads/'.$path.'/'.$row->collage_certificate))
+                @php($file_ext = pathinfo($row->collage_certificate, PATHINFO_EXTENSION))
+                <div class="col-md-3 text-center">
+                    @if(in_array($file_ext, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp']))
+                    <a href="{{ asset('uploads/'.$path.'/'.$row->collage_certificate) }}" data-lightbox="gallery">
+                        <img src="{{ asset('uploads/'.$path.'/'.$row->collage_certificate) }}" class="img-fluid">
+                    </a>
+                    @elseif($file_ext == 'pdf')
+                    <a href="{{ asset('uploads/'.$path.'/'.$row->collage_certificate) }}" target="_blank"><i class="fas fa-file-pdf"></i> {{ __('field_collage_certificate') }}</a>
+                    @endif
+                </div>
+                @endif
+            @endif
+        </div>
         
         <!-- [ Main Content ] end -->
     </div>
