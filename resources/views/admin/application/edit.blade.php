@@ -44,7 +44,7 @@
                             <fieldset class="row scheduler-border">
                             <div class="form-group col-md-6">
                                 <label for="first_name">{{ __('field_first_name') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="first_name" id="first_name" value="{{ $row->first_name }}" required>
+                                <input type="text" class="form-control" name="first_name" id="first_name" value="{{ old('first_name', $row->first_name) }}" required>
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_first_name') }}
@@ -53,7 +53,7 @@
 
                             <div class="form-group col-md-6">
                                 <label for="last_name">{{ __('field_last_name') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="last_name" id="last_name" value="{{ $row->last_name }}" required>
+                                <input type="text" class="form-control" name="last_name" id="last_name" value="{{ old('last_name', $row->last_name) }}" required>
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_last_name') }}
@@ -63,7 +63,7 @@
                             @if(field('student_father_name')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="father_name">{{ __('field_father_name') }}</label>
-                                <input type="text" class="form-control" name="father_name" id="father_name" value="{{ $row->father_name }}">
+                                <input type="text" class="form-control" name="father_name" id="father_name" value="{{ old('father_name', $row->father_name) }}">
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_father_name') }}
@@ -74,7 +74,7 @@
                             @if(field('student_father_occupation')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="father_occupation">{{ __('field_father_occupation') }}</label>
-                                <input type="text" class="form-control" name="father_occupation" id="father_occupation" value="{{ $row->father_occupation }}">
+                                <input type="text" class="form-control" name="father_occupation" id="father_occupation" value="{{ old('father_occupation', $row->father_occupation) }}">
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_father_occupation') }}
@@ -85,7 +85,7 @@
                             @if(field('student_mother_name')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="mother_name">{{ __('field_mother_name') }}</label>
-                                <input type="text" class="form-control" name="mother_name" id="mother_name" value="{{ $row->mother_name }}">
+                                <input type="text" class="form-control" name="mother_name" id="mother_name" value="{{ old('mother_name', $row->mother_name) }}">
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_mother_name') }}
@@ -96,7 +96,7 @@
                             @if(field('student_mother_occupation')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="mother_occupation">{{ __('field_mother_occupation') }}</label>
-                                <input type="text" class="form-control" name="mother_occupation" id="mother_occupation" value="{{ $row->mother_occupation }}">
+                                <input type="text" class="form-control" name="mother_occupation" id="mother_occupation" value="{{ old('mother_occupation', $row->mother_occupation) }}">
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_mother_occupation') }}
@@ -106,7 +106,7 @@
 
                             <div class="form-group col-md-6">
                                 <label for="phone">{{ __('field_phone') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="phone" id="phone" value="{{ $row->phone }}" required>
+                                <input type="text" class="form-control" name="phone" id="phone" value="{{ old('phone', $row->phone) }}" required>
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_phone') }}
@@ -115,7 +115,7 @@
 
                             <div class="form-group col-md-6">
                                 <label for="email">{{ __('field_email') }} <span>*</span></label>
-                                <input type="email" class="form-control" name="email" id="email" value="{{ $row->email }}" required>
+                                <input type="email" class="form-control" name="email" id="email" value="{{ old('email', $row->email) }}" required>
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_email') }}
@@ -126,9 +126,9 @@
                                 <label for="gender">{{ __('field_gender') }} <span>*</span></label>
                                 <select class="form-control" name="gender" id="gender" required>
                                     <option value="">{{ __('select') }}</option>
-                                    <option value="1" @if( $row->gender == 1 ) selected @endif>{{ __('gender_male') }}</option>
-                                    <option value="2" @if( $row->gender == 2 ) selected @endif>{{ __('gender_female') }}</option>
-                                    <option value="3" @if( $row->gender == 3 ) selected @endif>{{ __('gender_other') }}</option>
+                                    <option value="1" @if( old('gender', $row->gender) == 1 ) selected @endif>{{ __('gender_male') }}</option>
+                                    <option value="2" @if( old('gender', $row->gender) == 2 ) selected @endif>{{ __('gender_female') }}</option>
+                                    <option value="3" @if( old('gender', $row->gender) == 3 ) selected @endif>{{ __('gender_other') }}</option>
                                 </select>
 
                                 <div class="invalid-feedback">
@@ -138,7 +138,7 @@
 
                             <div class="form-group col-md-6">
                                 <label for="dob">{{ __('field_dob') }} <span>*</span></label>
-                                <input type="date" class="form-control date" name="dob" id="dob" value="{{ $row->dob }}" required>
+                                <input type="date" class="form-control date" name="dob" id="dob" value="{{ old('dob', $row->dob) }}" required>
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_dob') }}
@@ -148,7 +148,7 @@
                             @if(field('student_emergency_phone')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="emergency_phone">{{ __('field_emergency_phone') }}</label>
-                                <input type="text" class="form-control" name="emergency_phone" id="emergency_phone" value="{{ $row->emergency_phone }}">
+                                <input type="text" class="form-control" name="emergency_phone" id="emergency_phone" value="{{ old('emergency_phone', $row->emergency_phone) }}">
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_emergency_phone') }}
@@ -159,7 +159,7 @@
                             @if(field('student_religion')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="religion">{{ __('field_religion') }}</label>
-                                <input type="text" class="form-control" name="religion" id="religion" value="{{ $row->religion }}">
+                                <input type="text" class="form-control" name="religion" id="religion" value="{{ old('religion', $row->religion) }}">
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_religion') }}
@@ -170,7 +170,7 @@
                             @if(field('student_caste')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="caste">{{ __('field_caste') }}</label>
-                                <input type="text" class="form-control" name="caste" id="caste" value="{{ $row->caste }}">
+                                <input type="text" class="form-control" name="caste" id="caste" value="{{ old('caste', $row->caste) }}">
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_caste') }}
@@ -181,7 +181,7 @@
                             @if(field('student_mother_tongue')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="mother_tongue">{{ __('field_mother_tongue') }}</label>
-                                <input type="text" class="form-control" name="mother_tongue" id="mother_tongue" value="{{ $row->mother_tongue }}">
+                                <input type="text" class="form-control" name="mother_tongue" id="mother_tongue" value="{{ old('mother_tongue', $row->mother_tongue) }}">
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_mother_tongue') }}
@@ -192,7 +192,7 @@
                             @if(field('student_nationality')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="nationality">{{ __('field_nationality') }}</label>
-                                <input type="text" class="form-control" name="nationality" id="nationality" value="{{ $row->nationality }}">
+                                <input type="text" class="form-control" name="nationality" id="nationality" value="{{ old('nationality', $row->nationality) }}">
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_nationality') }}
@@ -205,11 +205,11 @@
                                 <label for="marital_status">{{ __('field_marital_status') }}</label>
                                 <select class="form-control" name="marital_status" id="marital_status">
                                     <option value="">{{ __('select') }}</option>
-                                    <option value="1" @if( $row->marital_status == 1 ) selected @endif>{{ __('marital_status_single') }}</option>
-                                    <option value="2" @if( $row->marital_status == 2 ) selected @endif>{{ __('marital_status_married') }}</option>
-                                    <option value="3" @if( $row->marital_status == 3 ) selected @endif>{{ __('marital_status_widowed') }}</option>
-                                    <option value="4" @if( $row->marital_status == 4 ) selected @endif>{{ __('marital_status_divorced') }}</option>
-                                    <option value="5" @if( $row->marital_status == 5 ) selected @endif>{{ __('marital_status_other') }}</option>
+                                    <option value="1" @if( old('marital_status', $row->marital_status) == 1 ) selected @endif>{{ __('marital_status_single') }}</option>
+                                    <option value="2" @if( old('marital_status', $row->marital_status) == 2 ) selected @endif>{{ __('marital_status_married') }}</option>
+                                    <option value="3" @if( old('marital_status', $row->marital_status) == 3 ) selected @endif>{{ __('marital_status_widowed') }}</option>
+                                    <option value="4" @if( old('marital_status', $row->marital_status) == 4 ) selected @endif>{{ __('marital_status_divorced') }}</option>
+                                    <option value="5" @if( old('marital_status', $row->marital_status) == 5 ) selected @endif>{{ __('marital_status_other') }}</option>
                                 </select>
 
                                 <div class="invalid-feedback">
@@ -223,14 +223,14 @@
                                 <label for="blood_group">{{ __('field_blood_group') }}</label>
                                 <select class="form-control" name="blood_group" id="blood_group">
                                     <option value="">{{ __('select') }}</option>
-                                    <option value="1" @if( $row->blood_group == 1 ) selected @endif>{{ __('A+') }}</option>
-                                    <option value="2" @if( $row->blood_group == 2 ) selected @endif>{{ __('A-') }}</option>
-                                    <option value="3" @if( $row->blood_group == 3 ) selected @endif>{{ __('B+') }}</option>
-                                    <option value="4" @if( $row->blood_group == 4 ) selected @endif>{{ __('B-') }}</option>
-                                    <option value="5" @if( $row->blood_group == 5 ) selected @endif>{{ __('AB+') }}</option>
-                                    <option value="6" @if( $row->blood_group == 6 ) selected @endif>{{ __('AB-') }}</option>
-                                    <option value="7" @if( $row->blood_group == 7 ) selected @endif>{{ __('O+') }}</option>
-                                    <option value="8" @if( $row->blood_group == 8 ) selected @endif>{{ __('O-') }}</option>
+                                    <option value="1" @if( old('blood_group', $row->blood_group) == 1 ) selected @endif>{{ __('A+') }}</option>
+                                    <option value="2" @if( old('blood_group', $row->blood_group) == 2 ) selected @endif>{{ __('A-') }}</option>
+                                    <option value="3" @if( old('blood_group', $row->blood_group) == 3 ) selected @endif>{{ __('B+') }}</option>
+                                    <option value="4" @if( old('blood_group', $row->blood_group) == 4 ) selected @endif>{{ __('B-') }}</option>
+                                    <option value="5" @if( old('blood_group', $row->blood_group) == 5 ) selected @endif>{{ __('AB+') }}</option>
+                                    <option value="6" @if( old('blood_group', $row->blood_group) == 6 ) selected @endif>{{ __('AB-') }}</option>
+                                    <option value="7" @if( old('blood_group', $row->blood_group) == 7 ) selected @endif>{{ __('O+') }}</option>
+                                    <option value="8" @if( old('blood_group', $row->blood_group) == 8 ) selected @endif>{{ __('O-') }}</option>
                                 </select>
 
                                 <div class="invalid-feedback">
@@ -242,7 +242,7 @@
                             @if(field('student_national_id')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="national_id">{{ __('field_national_id') }}</label>
-                                <input type="text" class="form-control" name="national_id" id="national_id" value="{{ $row->national_id }}">
+                                <input type="text" class="form-control" name="national_id" id="national_id" value="{{ old('national_id', $row->national_id) }}">
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_national_id') }}
@@ -253,7 +253,7 @@
                             @if(field('student_passport_no')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="passport_no">{{ __('field_passport_no') }}</label>
-                                <input type="text" class="form-control" name="passport_no" id="passport_no" value="{{ $row->passport_no }}">
+                                <input type="text" class="form-control" name="passport_no" id="passport_no" value="{{ old('passport_no', $row->passport_no) }}">
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_passport_no') }}
@@ -263,7 +263,7 @@
 
                             <div class="form-group col-md-6">
                                 <label for="admission_date">{{ __('field_admission_date') }} <span>*</span></label>
-                                <input type="date" class="form-control date" name="admission_date" id="admission_date" value="{{ date('Y-m-d') }}" required>
+                                <input type="date" class="form-control date" name="admission_date" id="admission_date" value="{{ old('admission_date', date('Y-m-d')) }}" required>
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_admission_date') }}
@@ -282,7 +282,7 @@
 
                                 <div class="form-group col-md-12">
                                     <label for="present_address">{{ __('field_address') }}</label>
-                                    <input type="text" class="form-control" name="present_address" id="present_address" value="{{ $row->present_address }}">
+                                    <input type="text" class="form-control" name="present_address" id="present_address" value="{{ old('present_address', $row->present_address) }}">
 
                                     <div class="invalid-feedback">
                                       {{ __('required_field') }} {{ __('field_address') }}
@@ -299,7 +299,7 @@
 
                                 <div class="form-group col-md-12">
                                     <label for="permanent_address">{{ __('field_address') }}</label>
-                                    <input type="text" class="form-control" name="permanent_address" id="permanent_address" value="{{ $row->permanent_address }}">
+                                    <input type="text" class="form-control" name="permanent_address" id="permanent_address" value="{{ old('permanent_address', $row->permanent_address) }}">
 
                                     <div class="invalid-feedback">
                                       {{ __('required_field') }} {{ __('field_address') }}
@@ -320,7 +320,7 @@
                             <legend>{{ __('field_school_information') }}</legend>
                             <div class="form-group col-md-3">
                                 <label for="school_name">{{ __('field_school_name') }}</label>
-                                <input type="text" class="form-control" name="school_name" id="school_name" value="{{ $row->school_name }}">
+                                <input type="text" class="form-control" name="school_name" id="school_name" value="{{ old('school_name', $row->school_name) }}">
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_school_name') }}
@@ -329,7 +329,7 @@
 
                             <div class="form-group col-md-3">
                                 <label for="school_exam_id">{{ __('field_exam_id') }}</label>
-                                <input type="text" class="form-control" name="school_exam_id" id="school_exam_id" value="{{ $row->school_exam_id }}">
+                                <input type="text" class="form-control" name="school_exam_id" id="school_exam_id" value="{{ old('school_exam_id', $row->school_exam_id) }}">
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_exam_id') }}
@@ -338,7 +338,7 @@
 
                             <div class="form-group col-md-3">
                                 <label for="school_graduation_year">{{ __('field_graduation_year') }}</label>
-                                <input type="text" class="form-control" name="school_graduation_year" id="school_graduation_year" value="{{ $row->school_graduation_year }}">
+                                <input type="text" class="form-control" name="school_graduation_year" id="school_graduation_year" value="{{ old('school_graduation_year', $row->school_graduation_year) }}">
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_graduation_year') }}
