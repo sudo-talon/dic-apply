@@ -31,7 +31,8 @@
                         }
                     @endphp
                     <div class="wizard-sec-bg">
-                    <form id="wizard-advanced-form" class="needs-validation" novalidate action="{{ route($route.'.store') }}" method="post" enctype="multipart/form-data" style="display: none;">
+                    <form id="wizard-advanced-form" class="needs-validation" novalidate action="{{ route($route.'.update', $row->id) }}" method="post" enctype="multipart/form-data" style="display: none;">
+                    @method('PUT')
                     @csrf
 
                         <input type="text" name="registration_no" value="{{ $row->registration_no }}" hidden>
@@ -312,240 +313,295 @@
                             <!-- Form End -->
                         </content>
 
-                        <h3>{{ __('tab_educational_info') }}</h3>
-                        <content class="form-step">
-                            <!-- Form Start--->
-                            @if(field('student_school_info')->status == 1)
-                            <fieldset class="row scheduler-border">
-                            <legend>{{ __('field_school_information') }}</legend>
-                            <div class="form-group col-md-3">
-                                <label for="school_name">{{ __('field_school_name') }}</label>
-                                <input type="text" class="form-control" name="school_name" id="school_name" value="{{ old('school_name', $row->school_name) }}">
+                   <h3>{{ __('tab_educational_info') }}</h3>
+                    <content class="form-step">
 
-                                <div class="invalid-feedback">
-                                  {{ __('required_field') }} {{ __('field_school_name') }}
-                                </div>
-                            </div>
+                    {{-- ================= SCHOOL INFO ================= --}}
+                    @if(field('student_school_info')->status == 1)
+                    <fieldset class="row scheduler-border">
+                    <legend>{{ __('field_school_information') }}</legend>
 
-                            <div class="form-group col-md-3">
-                                <label for="school_exam_id">{{ __('field_exam_id') }}</label>
-                                <input type="text" class="form-control" name="school_exam_id" id="school_exam_id" value="{{ old('school_exam_id', $row->school_exam_id) }}">
+                    <div class="form-group col-md-3">
+                    <label>{{ __('field_school_name') }}</label>
+                    <input type="text" class="form-control"
+                    name="school_name"
+                    value="{{ old('school_name', $row->school_name) }}">
+                    </div>
 
-                                <div class="invalid-feedback">
-                                  {{ __('required_field') }} {{ __('field_exam_id') }}
-                                </div>
-                            </div>
+                    <div class="form-group col-md-3">
+                    <label>{{ __('field_exam_id') }}</label>
+                    <input type="text" class="form-control"
+                    name="school_exam_id"
+                    value="{{ old('school_exam_id', $row->school_exam_id) }}">
+                    </div>
 
-                            <div class="form-group col-md-3">
-                                <label for="school_graduation_year">{{ __('field_graduation_year') }}</label>
-                                <input type="text" class="form-control" name="school_graduation_year" id="school_graduation_year" value="{{ old('school_graduation_year', $row->school_graduation_year) }}">
+                    <div class="form-group col-md-3">
+                    <label>{{ __('field_graduation_year') }}</label>
+                    <input type="text" class="form-control"
+                    name="school_graduation_year"
+                    value="{{ old('school_graduation_year', $row->school_graduation_year) }}">
+                    </div>
 
-                                <div class="invalid-feedback">
-                                  {{ __('required_field') }} {{ __('field_graduation_year') }}
-                                </div>
-                            </div>
+                    <div class="form-group col-md-3">
+                    <label>{{ __('field_graduation_point') }}</label>
+                    <input type="text" class="form-control"
+                    name="school_graduation_point"
+                    value="{{ old('school_graduation_point', $row->school_graduation_point) }}">
+                    </div>
 
-                            <div class="form-group col-md-3">
-                                <label for="school_graduation_point">{{ __('field_graduation_point') }}</label>
-                                <input type="text" class="form-control" name="school_graduation_point" id="school_graduation_point" value="{{ $row->school_graduation_point }}">
+                    </fieldset>
+                    @endif
 
-                                <div class="invalid-feedback">
-                                  {{ __('required_field') }} {{ __('field_graduation_point') }}
-                                </div>
-                            </div>
-                            </fieldset>
-                            @endif
 
-                            @if(field('student_collage_info')->status == 1)
-                            <fieldset class="row scheduler-border">
-                            <legend>{{ __('field_college_information') }}</legend>
-                            <div class="form-group col-md-3">
-                                <label for="collage_name">{{ __('field_collage_name') }}</label>
-                                <input type="text" class="form-control" name="collage_name" id="collage_name" value="{{ $row->collage_name }}">
+                    {{-- ================= COLLEGE INFO ================= --}}
+                    @if(field('student_collage_info')->status == 1)
+                    <fieldset class="row scheduler-border">
+                    <legend>{{ __('field_college_information') }}</legend>
 
-                                <div class="invalid-feedback">
-                                  {{ __('required_field') }} {{ __('field_collage_name') }}
-                                </div>
-                            </div>
+                    <div class="form-group col-md-3">
+                    <label>{{ __('field_collage_name') }}</label>
+                    <input type="text" class="form-control"
+                    name="collage_name"
+                    value="{{ old('collage_name', $row->collage_name) }}">
+                    </div>
 
-                            <div class="form-group col-md-3">
-                                <label for="collage_exam_id">{{ __('field_exam_id') }}</label>
-                                <input type="text" class="form-control" name="collage_exam_id" id="collage_exam_id" value="{{ $row->collage_exam_id }}">
+                    <div class="form-group col-md-3">
+                    <label>{{ __('field_exam_id') }}</label>
+                    <input type="text" class="form-control"
+                    name="collage_exam_id"
+                    value="{{ old('collage_exam_id', $row->collage_exam_id) }}">
+                    </div>
 
-                                <div class="invalid-feedback">
-                                  {{ __('required_field') }} {{ __('field_exam_id') }}
-                                </div>
-                            </div>
+                    <div class="form-group col-md-3">
+                    <label>{{ __('field_graduation_year') }}</label>
+                    <input type="text" class="form-control"
+                    name="collage_graduation_year"
+                    value="{{ old('collage_graduation_year', $row->collage_graduation_year) }}">
+                    </div>
 
-                            <div class="form-group col-md-3">
-                                <label for="collage_graduation_year">{{ __('field_graduation_year') }}</label>
-                                <input type="text" class="form-control" name="collage_graduation_year" id="collage_graduation_year" value="{{ $row->collage_graduation_year }}">
+                    <div class="form-group col-md-3">
+                    <label>{{ __('field_graduation_point') }}</label>
+                    <input type="text" class="form-control"
+                    name="collage_graduation_point"
+                    value="{{ old('collage_graduation_point', $row->collage_graduation_point) }}">
+                    </div>
 
-                                <div class="invalid-feedback">
-                                  {{ __('required_field') }} {{ __('field_graduation_year') }}
-                                </div>
-                            </div>
+                    </fieldset>
+                    @endif
 
-                            <div class="form-group col-md-3">
-                                <label for="collage_graduation_point">{{ __('field_graduation_point') }}</label>
-                                <input type="text" class="form-control" name="collage_graduation_point" id="collage_graduation_point" value="{{ $row->collage_graduation_point }}">
 
-                                <div class="invalid-feedback">
-                                  {{ __('required_field') }} {{ __('field_graduation_point') }}
-                                </div>
-                            </div>
-                            </fieldset>
-                            @endif
+                    {{-- ================= ACADEMIC INFO ================= --}}
+                    <fieldset class="row scheduler-border">
+                    <legend>{{ __('field_academic_information') }}</legend>
 
-                            <fieldset class="row scheduler-border">
-                            <legend>{{ __('field_academic_information') }}</legend>
-                            <div class="form-group col-md-6">
-                                <label for="student_id">{{ __('field_student_id') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="student_id" id="student_id" value="{{ old('student_id') }}" required>
+                    <div class="form-group col-md-6">
+                    <label>{{ __('field_student_id') }} <span>*</span></label>
+                    <input type="text"
+                    class="form-control"
+                    name="student_id"
+                    value="{{ old('student_id', $row->student_id) }}"
+                    required>
+                    </div>
 
-                                <div class="invalid-feedback">
-                                  {{ __('required_field') }} {{ __('field_student_id') }}
-                                </div>
-                            </div>
 
-                            <div class="form-group col-md-6">
-                                <label for="batch">{{ __('field_batch') }} <span>*</span></label>
-                                <select class="form-control batch" name="batch" id="batch" required>
-                                    <option value="">{{ __('select') }}</option>
-                                    @foreach( $batches as $batch )
-                                    <option value="{{ $batch->id }}" @if(old('batch') == $batch->id) selected @endif>{{ $batch->title }}</option>
-                                    @endforeach
-                                </select>
+                    <div class="form-group col-md-6">
+                    <label>{{ __('field_batch') }} <span>*</span></label>
 
-                                <div class="invalid-feedback">
-                                  {{ __('required_field') }} {{ __('field_batch') }}
-                                </div>
-                            </div>
+                    <select class="form-control batch"
+                    name="batch"
+                    required>
 
-                            <div class="form-group col-md-6">
-                            <label for="program">{{ __('field_program') }} <span>*</span></label>
-                                <select class="form-control program" name="program" id="program" required>
-                                  <option value="">{{ __('select') }}</option>
-                                </select>
+                    <option value="">{{ __('select') }}</option>
 
-                              <div class="invalid-feedback">
-                                {{ __('required_field') }} {{ __('field_program') }}
-                              </div>
-                            </div>
+                    @foreach($batches as $batch)
 
-                            <div class="form-group col-md-6">
-                                <label for="session">{{ __('field_session') }} <span>*</span></label>
-                                <select class="form-control session" name="session" id="session" required>
-                                  <option value="">{{ __('select') }}</option>
-                                </select>
+                    <option value="{{ $batch->id }}"
+                    {{ old('batch', $row->batch_id) == $batch->id ? 'selected' : '' }}>
+                    {{ $batch->title }}
+                    </option>
 
-                                <div class="invalid-feedback">
-                                  {{ __('required_field') }} {{ __('field_session') }}
-                                </div>
-                            </div>
+                    @endforeach
 
-                            <div class="form-group col-md-6">
-                                <label for="semester">{{ __('field_semester') }} <span>*</span></label>
-                                <select class="form-control semester" name="semester" id="semester" required>
-                                  <option value="">{{ __('select') }}</option>
-                                </select>
+                    </select>
+                    </div>
 
-                                <div class="invalid-feedback">
-                                  {{ __('required_field') }} {{ __('field_semester') }}
-                                </div>
-                            </div>
 
-                            <div class="form-group col-md-6">
-                                <label for="section">{{ __('field_section') }} <span>*</span></label>
-                                <select class="form-control section" name="section" id="section" required>
-                                  <option value="">{{ __('select') }}</option>
-                                </select>
+                    {{-- PROGRAM --}}
+                    <div class="form-group col-md-6">
+                    <label>{{ __('field_program') }} <span>*</span></label>
 
-                                <div class="invalid-feedback">
-                                  {{ __('required_field') }} {{ __('field_section') }}
-                                </div>
-                            </div>
+                    <select class="form-control program"
+                    name="program"
+                    required>
 
-                            <div class="form-group col-md-6">
-                                <label for="status">{{ __('field_status') }}</label>
-                                <select class="form-control select2" name="statuses[]" id="status" multiple>
-                                    @foreach( $statuses as $status )
-                                    <option value="{{ $status->id }}" @if(old('status') == $status->id) selected @endif>{{ $status->title }}</option>
-                                    @endforeach
-                                </select>
+                    <option value="">{{ __('select') }}</option>
 
-                                <div class="invalid-feedback">
-                                  {{ __('required_field') }} {{ __('field_status') }}
-                                </div>
-                            </div>
-                            </fieldset>
-                            
-                            @if(field('student_relatives')->status == 1)
-                            <fieldset class="row scheduler-border">
-                            <legend>{{ __('field_guardians_information') }}</legend>
-                            <div class="container-fluid">
-                            <div id="inputFormField" class="row">
+                    @if(optional($row->currentEnroll)->program_id)
 
-                            <div class="form-group col-md-4">
-                                <label for="relation" class="form-label">{{ __('field_relation') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="relations[]" id="relation" value="{{ old('relation') }}" required>
+                    <option value="{{ $row->currentEnroll->program_id }}" selected>
+                    {{ optional($row->currentEnroll->program)->title ?? 'Selected Program' }}
+                    </option>
 
-                                <div class="invalid-feedback">
-                                  {{ __('required_field') }} {{ __('field_relation') }}
-                                </div>
-                            </div>
+                    @endif
 
-                            <div class="form-group col-md-4">
-                                <label for="relative_name" class="form-label">{{ __('field_name') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="relative_names[]" id="relative_name" value="{{ old('relative_name') }}" required>
+                    </select>
+                    </div>
 
-                                <div class="invalid-feedback">
-                                  {{ __('required_field') }} {{ __('field_name') }}
-                                </div>
-                            </div>
 
-                            <div class="form-group col-md-4">
-                                <label for="occupation" class="form-label">{{ __('field_occupation') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="occupations[]" id="occupation" value="{{ old('occupation') }}" required>
+                    {{-- SESSION --}}
+                    <div class="form-group col-md-6">
+                    <label>{{ __('field_session') }} <span>*</span></label>
 
-                                <div class="invalid-feedback">
-                                  {{ __('required_field') }} {{ __('field_occupation') }}
-                                </div>
-                            </div>
+                    <select class="form-control session"
+                    name="session"
+                    required>
 
-                            <div class="form-group col-md-4">
-                                <label for="relative_phone" class="form-label">{{ __('field_phone') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="relative_phones[]" id="relative_phone" value="{{ old('relative_phone') }}" required>
+                    <option value="">{{ __('select') }}</option>
 
-                                <div class="invalid-feedback">
-                                  {{ __('required_field') }} {{ __('field_phone') }}
-                                </div>
-                            </div>
+                    @if(optional($row->currentEnroll)->session_id)
 
-                            <div class="form-group col-md-4">
-                                <label for="address" class="form-label">{{ __('field_address') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="addresses[]" id="address" value="{{ old('address') }}" required>
+                    <option value="{{ $row->currentEnroll->session_id }}" selected>
+                    {{ optional($row->currentEnroll->session)->title ?? 'Selected Session' }}
+                    </option>
 
-                                <div class="invalid-feedback">
-                                  {{ __('required_field') }} {{ __('field_address') }}
-                                </div>
-                            </div>
+                    @endif
 
-                            <div class="form-group col-md-4">
-                                <button id="removeField" type="button" class="btn btn-danger btn-filter"><i class="fas fa-trash-alt"></i> {{ __('btn_remove') }}</button>
-                            </div>
+                    </select>
+                    </div>
 
-                            </div>
 
-                            <div id="newField" class="clearfix"></div>
-                            <div class="form-group">
-                                <button id="addField" type="button" class="btn btn-info"><i class="fas fa-plus"></i> {{ __('btn_add_new') }}</button>
-                            </div>
-                            </div>
-                            </fieldset>
-                            @endif
-                            <!-- Form End--->
-                        </content>
+                    {{-- SEMESTER --}}
+                    <div class="form-group col-md-6">
+                    <label>{{ __('field_semester') }} <span>*</span></label>
+
+                    <select class="form-control semester"
+                    name="semester"
+                    required>
+
+                    <option value="">{{ __('select') }}</option>
+
+                    @if(optional($row->currentEnroll)->semester_id)
+
+                    <option value="{{ $row->currentEnroll->semester_id }}" selected>
+                    {{ optional($row->currentEnroll->semester)->title ?? 'Selected Semester' }}
+                    </option>
+
+                    @endif
+
+                    </select>
+                    </div>
+
+
+                    {{-- SECTION --}}
+                    <div class="form-group col-md-6">
+                    <label>{{ __('field_section') }} <span>*</span></label>
+
+                    <select class="form-control section"
+                    name="section"
+                    required>
+
+                    <option value="">{{ __('select') }}</option>
+
+                    @if(optional($row->currentEnroll)->section_id)
+
+                    <option value="{{ $row->currentEnroll->section_id }}" selected>
+                    {{ optional($row->currentEnroll->section)->title ?? 'Selected Section' }}
+                    </option>
+
+                    @endif
+
+                    </select>
+                    </div>
+
+
+                    {{-- STATUSES --}}
+                    <div class="form-group col-md-6">
+                    <label>{{ __('field_status') }}</label>
+
+                    <select class="form-control select2"
+                    name="statuses[]"
+                    multiple>
+
+                    @foreach($statuses as $status)
+
+                    <option value="{{ $status->id }}"
+                    {{ in_array($status->id, old('statuses', $row->statuses->pluck('id')->toArray())) ? 'selected' : '' }}>
+                    {{ $status->title }}
+                    </option>
+
+                    @endforeach
+
+                    </select>
+
+                    </div>
+
+                    </fieldset>
+
+
+
+                    {{-- ================= GUARDIANS ================= --}}
+                    @if(field('student_relatives')->status == 1)
+
+                    <fieldset class="row scheduler-border">
+                    <legend>{{ __('field_guardians_information') }}</legend>
+
+                    <div class="container-fluid">
+
+                    @foreach($row->relatives as $relative)
+
+                    <div class="row mb-3">
+
+                    <div class="col-md-4">
+                    <label>{{ __('field_relation') }}</label>
+                    <input type="text"
+                    class="form-control"
+                    name="relations[]"
+                    value="{{ $relative->relation }}">
+                    </div>
+
+                    <div class="col-md-4">
+                    <label>{{ __('field_name') }}</label>
+                    <input type="text"
+                    class="form-control"
+                    name="relative_names[]"
+                    value="{{ $relative->name }}">
+                    </div>
+
+                    <div class="col-md-4">
+                    <label>{{ __('field_occupation') }}</label>
+                    <input type="text"
+                    class="form-control"
+                    name="occupations[]"
+                    value="{{ $relative->occupation }}">
+                    </div>
+
+                    <div class="col-md-4">
+                    <label>{{ __('field_phone') }}</label>
+                    <input type="text"
+                    class="form-control"
+                    name="relative_phones[]"
+                    value="{{ $relative->phone }}">
+                    </div>
+
+                    <div class="col-md-4">
+                    <label>{{ __('field_address') }}</label>
+                    <input type="text"
+                    class="form-control"
+                    name="addresses[]"
+                    value="{{ $relative->address }}">
+                    </div>
+
+                    </div>
+
+                    @endforeach
+
+                    </div>
+
+                    </fieldset>
+
+                    @endif
+
+                    </content>
 
                         @if(field('student_school_transcript')->status == 1 || field('student_school_certificate')->status == 1 || field('student_collage_transcript')->status == 1 || field('student_collage_certificate')->status == 1 || field('student_photo')->status == 1 || field('student_signature')->status == 1 || field('student_documents')->status == 1)
                         <h3>{{ __('tab_documents') }}</h3>
