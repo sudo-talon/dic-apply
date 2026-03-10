@@ -264,7 +264,7 @@
 
                             <div class="form-group col-md-6">
                                 <label for="admission_date">{{ __('field_admission_date') }} <span>*</span></label>
-                                <input type="date" class="form-control date" name="admission_date" id="admission_date" value="{{ old('admission_date', date('Y-m-d')) }}" required>
+                                <input type="date" class="form-control date" name="admission_date" id="admission_date" value="{{ old('admission_date', $row->admission_date ?? date('Y-m-d')) }}" required>
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_admission_date') }}
@@ -547,7 +547,7 @@
 
                     <div class="container-fluid">
 
-                    @foreach($row->relatives as $relative)
+                    @foreach($row->relatives ?? [] as $relative)
 
                     <div class="row mb-3">
 
