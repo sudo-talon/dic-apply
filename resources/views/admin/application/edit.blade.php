@@ -525,7 +525,7 @@
                     @foreach($statuses as $status)
 
                     <option value="{{ $status->id }}"
-                    {{ in_array($status->id, old('statuses', $row->statuses->pluck('id')->toArray())) ? 'selected' : '' }}>
+                    {{ in_array($status->id, old('statuses', $row->statuses ? $row->statuses->pluck('id')->toArray() : [])) ? 'selected' : '' }}>
                     {{ $status->title }}
                     </option>
 
