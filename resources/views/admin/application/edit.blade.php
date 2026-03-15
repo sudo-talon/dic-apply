@@ -31,8 +31,7 @@
                         }
                     @endphp
                     <div class="wizard-sec-bg">
-                    <form id="wizard-advanced-form" class="needs-validation" novalidate action="{{ route($route.'.update', $row->id) }}" method="post" enctype="multipart/form-data" style="display: none;">
-                    @method('PUT')
+                    <form id="wizard-advanced-form" class="needs-validation" novalidate action="{{ route($route.'.store') }}" method="post" enctype="multipart/form-data" style="display: none;">
                     @csrf
 
                         <input type="text" name="registration_no" value="{{ $row->registration_no }}" hidden>
@@ -46,6 +45,7 @@
                             <div class="form-group col-md-6">
                                 <label for="first_name">{{ __('field_first_name') }} <span>*</span></label>
                                 <input type="text" class="form-control" name="first_name" id="first_name" value="{{ old('first_name', $row->first_name) }}" required>
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_first_name') }}
                                 </div>
@@ -54,6 +54,7 @@
                             <div class="form-group col-md-6">
                                 <label for="last_name">{{ __('field_last_name') }} <span>*</span></label>
                                 <input type="text" class="form-control" name="last_name" id="last_name" value="{{ old('last_name', $row->last_name) }}" required>
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_last_name') }}
                                 </div>
@@ -63,6 +64,7 @@
                             <div class="form-group col-md-6">
                                 <label for="father_name">{{ __('field_father_name') }}</label>
                                 <input type="text" class="form-control" name="father_name" id="father_name" value="{{ old('father_name', $row->father_name) }}">
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_father_name') }}
                                 </div>
@@ -73,6 +75,7 @@
                             <div class="form-group col-md-6">
                                 <label for="father_occupation">{{ __('field_father_occupation') }}</label>
                                 <input type="text" class="form-control" name="father_occupation" id="father_occupation" value="{{ old('father_occupation', $row->father_occupation) }}">
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_father_occupation') }}
                                 </div>
@@ -83,6 +86,7 @@
                             <div class="form-group col-md-6">
                                 <label for="mother_name">{{ __('field_mother_name') }}</label>
                                 <input type="text" class="form-control" name="mother_name" id="mother_name" value="{{ old('mother_name', $row->mother_name) }}">
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_mother_name') }}
                                 </div>
@@ -93,6 +97,7 @@
                             <div class="form-group col-md-6">
                                 <label for="mother_occupation">{{ __('field_mother_occupation') }}</label>
                                 <input type="text" class="form-control" name="mother_occupation" id="mother_occupation" value="{{ old('mother_occupation', $row->mother_occupation) }}">
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_mother_occupation') }}
                                 </div>
@@ -102,6 +107,7 @@
                             <div class="form-group col-md-6">
                                 <label for="phone">{{ __('field_phone') }} <span>*</span></label>
                                 <input type="text" class="form-control" name="phone" id="phone" value="{{ old('phone', $row->phone) }}" required>
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_phone') }}
                                 </div>
@@ -110,6 +116,7 @@
                             <div class="form-group col-md-6">
                                 <label for="email">{{ __('field_email') }} <span>*</span></label>
                                 <input type="email" class="form-control" name="email" id="email" value="{{ old('email', $row->email) }}" required>
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_email') }}
                                 </div>
@@ -123,6 +130,7 @@
                                     <option value="2" @if( old('gender', $row->gender) == 2 ) selected @endif>{{ __('gender_female') }}</option>
                                     <option value="3" @if( old('gender', $row->gender) == 3 ) selected @endif>{{ __('gender_other') }}</option>
                                 </select>
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_gender') }}
                                 </div>
@@ -131,6 +139,7 @@
                             <div class="form-group col-md-6">
                                 <label for="dob">{{ __('field_dob') }} <span>*</span></label>
                                 <input type="date" class="form-control date" name="dob" id="dob" value="{{ old('dob', $row->dob) }}" required>
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_dob') }}
                                 </div>
@@ -140,6 +149,7 @@
                             <div class="form-group col-md-6">
                                 <label for="emergency_phone">{{ __('field_emergency_phone') }}</label>
                                 <input type="text" class="form-control" name="emergency_phone" id="emergency_phone" value="{{ old('emergency_phone', $row->emergency_phone) }}">
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_emergency_phone') }}
                                 </div>
@@ -150,6 +160,7 @@
                             <div class="form-group col-md-6">
                                 <label for="religion">{{ __('field_religion') }}</label>
                                 <input type="text" class="form-control" name="religion" id="religion" value="{{ old('religion', $row->religion) }}">
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_religion') }}
                                 </div>
@@ -160,6 +171,7 @@
                             <div class="form-group col-md-6">
                                 <label for="caste">{{ __('field_caste') }}</label>
                                 <input type="text" class="form-control" name="caste" id="caste" value="{{ old('caste', $row->caste) }}">
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_caste') }}
                                 </div>
@@ -170,6 +182,7 @@
                             <div class="form-group col-md-6">
                                 <label for="mother_tongue">{{ __('field_mother_tongue') }}</label>
                                 <input type="text" class="form-control" name="mother_tongue" id="mother_tongue" value="{{ old('mother_tongue', $row->mother_tongue) }}">
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_mother_tongue') }}
                                 </div>
@@ -180,6 +193,7 @@
                             <div class="form-group col-md-6">
                                 <label for="nationality">{{ __('field_nationality') }}</label>
                                 <input type="text" class="form-control" name="nationality" id="nationality" value="{{ old('nationality', $row->nationality) }}">
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_nationality') }}
                                 </div>
@@ -197,6 +211,7 @@
                                     <option value="4" @if( old('marital_status', $row->marital_status) == 4 ) selected @endif>{{ __('marital_status_divorced') }}</option>
                                     <option value="5" @if( old('marital_status', $row->marital_status) == 5 ) selected @endif>{{ __('marital_status_other') }}</option>
                                 </select>
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_marital_status') }}
                                 </div>
@@ -217,6 +232,7 @@
                                     <option value="7" @if( old('blood_group', $row->blood_group) == 7 ) selected @endif>{{ __('O+') }}</option>
                                     <option value="8" @if( old('blood_group', $row->blood_group) == 8 ) selected @endif>{{ __('O-') }}</option>
                                 </select>
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_blood_group') }}
                                 </div>
@@ -227,6 +243,7 @@
                             <div class="form-group col-md-6">
                                 <label for="national_id">{{ __('field_national_id') }}</label>
                                 <input type="text" class="form-control" name="national_id" id="national_id" value="{{ old('national_id', $row->national_id) }}">
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_national_id') }}
                                 </div>
@@ -237,6 +254,7 @@
                             <div class="form-group col-md-6">
                                 <label for="passport_no">{{ __('field_passport_no') }}</label>
                                 <input type="text" class="form-control" name="passport_no" id="passport_no" value="{{ old('passport_no', $row->passport_no) }}">
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_passport_no') }}
                                 </div>
@@ -245,7 +263,8 @@
 
                             <div class="form-group col-md-6">
                                 <label for="admission_date">{{ __('field_admission_date') }} <span>*</span></label>
-                                <input type="date" class="form-control date" name="admission_date" id="admission_date" value="{{ old('admission_date', $row->admission_date ?? date('Y-m-d')) }}" required>
+                                <input type="date" class="form-control date" name="admission_date" id="admission_date" value="{{ old('admission_date', date('Y-m-d')) }}" required>
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_admission_date') }}
                                 </div>
@@ -260,9 +279,11 @@
                                 <fieldset class="row scheduler-border">
                                 <legend>{{ __('field_present') }} {{ __('field_address') }}</legend>
                                 @include('common.inc.present_province')
+
                                 <div class="form-group col-md-12">
                                     <label for="present_address">{{ __('field_address') }}</label>
                                     <input type="text" class="form-control" name="present_address" id="present_address" value="{{ old('present_address', $row->present_address) }}">
+
                                     <div class="invalid-feedback">
                                       {{ __('required_field') }} {{ __('field_address') }}
                                     </div>
@@ -273,10 +294,13 @@
                               <div class="col-md-6">
                                 <fieldset class="row scheduler-border">
                                 <legend>{{ __('field_permanent') }} {{ __('field_address') }}</legend>
+
                                 @include('common.inc.permanent_province')
+
                                 <div class="form-group col-md-12">
                                     <label for="permanent_address">{{ __('field_address') }}</label>
                                     <input type="text" class="form-control" name="permanent_address" id="permanent_address" value="{{ old('permanent_address', $row->permanent_address) }}">
+
                                     <div class="invalid-feedback">
                                       {{ __('required_field') }} {{ __('field_address') }}
                                     </div>
@@ -288,7 +312,7 @@
                             <!-- Form End -->
                         </content>
 
-                   <h3>{{ __('tab_educational_info') }}</h3>
+                       <h3>{{ __('tab_educational_info') }}</h3>
                     <content class="form-step">
 
                     {{-- ================= SCHOOL INFO ================= --}}
@@ -298,22 +322,30 @@
 
                     <div class="form-group col-md-3">
                     <label>{{ __('field_school_name') }}</label>
-                    <input type="text" class="form-control" name="school_name" value="{{ old('school_name', $row->school_name) }}">
+                    <input type="text" class="form-control"
+                    name="school_name"
+                    value="{{ old('school_name', $row->school_name) }}">
                     </div>
 
                     <div class="form-group col-md-3">
                     <label>{{ __('field_exam_id') }}</label>
-                    <input type="text" class="form-control" name="school_exam_id" value="{{ old('school_exam_id', $row->school_exam_id) }}">
+                    <input type="text" class="form-control"
+                    name="school_exam_id"
+                    value="{{ old('school_exam_id', $row->school_exam_id) }}">
                     </div>
 
                     <div class="form-group col-md-3">
                     <label>{{ __('field_graduation_year') }}</label>
-                    <input type="text" class="form-control" name="school_graduation_year" value="{{ old('school_graduation_year', $row->school_graduation_year) }}">
+                    <input type="text" class="form-control"
+                    name="school_graduation_year"
+                    value="{{ old('school_graduation_year', $row->school_graduation_year) }}">
                     </div>
 
                     <div class="form-group col-md-3">
                     <label>{{ __('field_graduation_point') }}</label>
-                    <input type="text" class="form-control" name="school_graduation_point" value="{{ old('school_graduation_point', $row->school_graduation_point) }}">
+                    <input type="text" class="form-control"
+                    name="school_graduation_point"
+                    value="{{ old('school_graduation_point', $row->school_graduation_point) }}">
                     </div>
 
                     </fieldset>
@@ -327,22 +359,30 @@
 
                     <div class="form-group col-md-3">
                     <label>{{ __('field_collage_name') }}</label>
-                    <input type="text" class="form-control" name="collage_name" value="{{ old('collage_name', $row->collage_name) }}">
+                    <input type="text" class="form-control"
+                    name="collage_name"
+                    value="{{ old('collage_name', $row->collage_name) }}">
                     </div>
 
                     <div class="form-group col-md-3">
                     <label>{{ __('field_exam_id') }}</label>
-                    <input type="text" class="form-control" name="collage_exam_id" value="{{ old('collage_exam_id', $row->collage_exam_id) }}">
+                    <input type="text" class="form-control"
+                    name="collage_exam_id"
+                    value="{{ old('collage_exam_id', $row->collage_exam_id) }}">
                     </div>
 
                     <div class="form-group col-md-3">
                     <label>{{ __('field_graduation_year') }}</label>
-                    <input type="text" class="form-control" name="collage_graduation_year" value="{{ old('collage_graduation_year', $row->collage_graduation_year) }}">
+                    <input type="text" class="form-control"
+                    name="collage_graduation_year"
+                    value="{{ old('collage_graduation_year', $row->collage_graduation_year) }}">
                     </div>
 
                     <div class="form-group col-md-3">
                     <label>{{ __('field_graduation_point') }}</label>
-                    <input type="text" class="form-control" name="collage_graduation_point" value="{{ old('collage_graduation_point', $row->collage_graduation_point) }}">
+                    <input type="text" class="form-control"
+                    name="collage_graduation_point"
+                    value="{{ old('collage_graduation_point', $row->collage_graduation_point) }}">
                     </div>
 
                     </fieldset>
@@ -362,133 +402,202 @@
                     required>
                     </div>
 
-                    {{-- BATCH --}}
+
                     <div class="form-group col-md-6">
                     <label>{{ __('field_batch') }} <span>*</span></label>
-                    <select class="form-control batch" name="batch" required>
+
+                    <select class="form-control batch"
+                    name="batch"
+                    required>
+
                     <option value="">{{ __('select') }}</option>
+
                     @foreach($batches as $batch)
+
                     <option value="{{ $batch->id }}"
                     {{ old('batch', $row->batch_id) == $batch->id ? 'selected' : '' }}>
                     {{ $batch->title }}
                     </option>
+
                     @endforeach
+
                     </select>
                     </div>
+
 
                     {{-- PROGRAM --}}
                     <div class="form-group col-md-6">
                     <label>{{ __('field_program') }} <span>*</span></label>
-                    <select class="form-control program" name="program" required>
+
+                    <select class="form-control program"
+                    name="program"
+                    required>
+
                     <option value="">{{ __('select') }}</option>
+
                     @if(optional($row->currentEnroll)->program_id)
+
                     <option value="{{ $row->currentEnroll->program_id }}" selected>
                     {{ optional($row->currentEnroll->program)->title ?? 'Selected Program' }}
                     </option>
+
                     @endif
+
                     </select>
                     </div>
+
 
                     {{-- SESSION --}}
                     <div class="form-group col-md-6">
                     <label>{{ __('field_session') }} <span>*</span></label>
-                    <select class="form-control session" name="session" required>
+
+                    <select class="form-control session"
+                    name="session"
+                    required>
+
                     <option value="">{{ __('select') }}</option>
+
                     @if(optional($row->currentEnroll)->session_id)
+
                     <option value="{{ $row->currentEnroll->session_id }}" selected>
                     {{ optional($row->currentEnroll->session)->title ?? 'Selected Session' }}
                     </option>
+
                     @endif
+
                     </select>
                     </div>
+
 
                     {{-- SEMESTER --}}
                     <div class="form-group col-md-6">
                     <label>{{ __('field_semester') }} <span>*</span></label>
-                    <select class="form-control semester" name="semester" required>
+
+                    <select class="form-control semester"
+                    name="semester"
+                    required>
+
                     <option value="">{{ __('select') }}</option>
+
                     @if(optional($row->currentEnroll)->semester_id)
+
                     <option value="{{ $row->currentEnroll->semester_id }}" selected>
                     {{ optional($row->currentEnroll->semester)->title ?? 'Selected Semester' }}
                     </option>
+
                     @endif
+
                     </select>
                     </div>
+
 
                     {{-- SECTION --}}
                     <div class="form-group col-md-6">
                     <label>{{ __('field_section') }} <span>*</span></label>
-                    <select class="form-control section" name="section" required>
+
+                    <select class="form-control section"
+                    name="section"
+                    required>
+
                     <option value="">{{ __('select') }}</option>
+
                     @if(optional($row->currentEnroll)->section_id)
+
                     <option value="{{ $row->currentEnroll->section_id }}" selected>
                     {{ optional($row->currentEnroll->section)->title ?? 'Selected Section' }}
                     </option>
+
                     @endif
+
                     </select>
                     </div>
+
 
                     {{-- STATUSES --}}
                     <div class="form-group col-md-6">
                     <label>{{ __('field_status') }}</label>
-                    <select class="form-control select2" name="statuses[]" multiple>
+
+                    <select class="form-control select2"
+                    name="statuses[]"
+                    multiple>
+
                     @foreach($statuses as $status)
+
                     <option value="{{ $status->id }}"
-                    {{ in_array($status->id, old('statuses', $row->statuses ? $row->statuses->pluck('id')->toArray() : [])) ? 'selected' : '' }}>
+                    {{ in_array($status->id, old('statuses', $row->statuses->pluck('id')->toArray())) ? 'selected' : '' }}>
                     {{ $status->title }}
                     </option>
+
                     @endforeach
+
                     </select>
+
                     </div>
 
                     </fieldset>
+
 
 
                     {{-- ================= GUARDIANS ================= --}}
                     @if(field('student_relatives')->status == 1)
+
                     <fieldset class="row scheduler-border">
                     <legend>{{ __('field_guardians_information') }}</legend>
+
                     <div class="container-fluid">
 
-                    @foreach($row->relatives ?? [] as $relative)
-                    <div class="row mb-3 guardian-row">
+                    @foreach($row->relatives as $relative)
+
+                    <div class="row mb-3">
 
                     <div class="col-md-4">
                     <label>{{ __('field_relation') }}</label>
-                    <input type="text" class="form-control" name="relations[]" value="{{ old('relations.' . $loop->index, $relative->relation) }}">
+                    <input type="text"
+                    class="form-control"
+                    name="relations[]"
+                    value="{{ $relative->relation }}">
                     </div>
 
                     <div class="col-md-4">
                     <label>{{ __('field_name') }}</label>
-                    <input type="text" class="form-control" name="relative_names[]" value="{{ old('relative_names.' . $loop->index, $relative->name) }}">
+                    <input type="text"
+                    class="form-control"
+                    name="relative_names[]"
+                    value="{{ $relative->name }}">
                     </div>
 
                     <div class="col-md-4">
                     <label>{{ __('field_occupation') }}</label>
-                    <input type="text" class="form-control" name="occupations[]" value="{{ old('occupations.' . $loop->index, $relative->occupation) }}">
+                    <input type="text"
+                    class="form-control"
+                    name="occupations[]"
+                    value="{{ $relative->occupation }}">
                     </div>
 
                     <div class="col-md-4">
                     <label>{{ __('field_phone') }}</label>
-                    <input type="text" class="form-control" name="relative_phones[]" value="{{ old('relative_phones.' . $loop->index, $relative->phone) }}">
+                    <input type="text"
+                    class="form-control"
+                    name="relative_phones[]"
+                    value="{{ $relative->phone }}">
                     </div>
 
                     <div class="col-md-4">
                     <label>{{ __('field_address') }}</label>
-                    <input type="text" class="form-control" name="addresses[]" value="{{ old('addresses.' . $loop->index, $relative->address) }}">
+                    <input type="text"
+                    class="form-control"
+                    name="addresses[]"
+                    value="{{ $relative->address }}">
                     </div>
 
                     </div>
+
                     @endforeach
 
-                    {{-- Add new guardian rows --}}
-                    <div id="newField" class="clearfix"></div>
-                    <div class="form-group mt-2">
-                        <button id="addField" type="button" class="btn btn-info"><i class="fas fa-plus"></i> {{ __('btn_add_new') }}</button>
                     </div>
 
-                    </div>
                     </fieldset>
+
                     @endif
 
                     </content>
@@ -501,12 +610,14 @@
                             @if(field('student_school_transcript')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="school_transcript">{{ __('field_school_transcript') }}</label>
-                                <input type="file" class="form-control" name="school_transcript" id="school_transcript">
+                                <input type="file" class="form-control" name="school_transcript" id="school_transcript" value="{{ old('school_transcript') }}">
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_school_transcript') }}
                                 </div>
-                                @if($row->school_transcript && is_file('uploads/'.$path.'/'.$row->school_transcript))
-                                    <img src="{{ asset('uploads/'.$path.'/'.$row->school_transcript) }}" class="img-fluid mt-1" style="max-width: 80px; max-height: 80px;">
+
+                                @if(is_file('uploads/'.$path.'/'.$row->school_transcript))
+                                    <img src="{{ asset('uploads/'.$path.'/'.$row->school_transcript) }}" class="img-fluid" style="max-width: 80px; max-height: 80px;">
                                 @endif
                             </div>
                             @endif
@@ -514,12 +625,14 @@
                             @if(field('student_school_certificate')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="school_certificate">{{ __('field_school_certificate') }}</label>
-                                <input type="file" class="form-control" name="school_certificate" id="school_certificate">
+                                <input type="file" class="form-control" name="school_certificate" id="school_certificate" value="{{ old('school_certificate') }}">
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_school_certificate') }}
                                 </div>
-                                @if($row->school_certificate && is_file('uploads/'.$path.'/'.$row->school_certificate))
-                                    <img src="{{ asset('uploads/'.$path.'/'.$row->school_certificate) }}" class="img-fluid mt-1" style="max-width: 80px; max-height: 80px;">
+
+                                @if(is_file('uploads/'.$path.'/'.$row->school_certificate))
+                                    <img src="{{ asset('uploads/'.$path.'/'.$row->school_certificate) }}" class="img-fluid" style="max-width: 80px; max-height: 80px;">
                                 @endif
                             </div>
                             @endif
@@ -527,12 +640,14 @@
                             @if(field('student_collage_transcript')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="collage_transcript">{{ __('field_collage_transcript') }}</label>
-                                <input type="file" class="form-control" name="collage_transcript" id="collage_transcript">
+                                <input type="file" class="form-control" name="collage_transcript" id="collage_transcript" value="{{ old('collage_transcript') }}">
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_collage_transcript') }}
                                 </div>
-                                @if($row->collage_transcript && is_file('uploads/'.$path.'/'.$row->collage_transcript))
-                                    <img src="{{ asset('uploads/'.$path.'/'.$row->collage_transcript) }}" class="img-fluid mt-1" style="max-width: 80px; max-height: 80px;">
+
+                                @if(is_file('uploads/'.$path.'/'.$row->collage_transcript))
+                                    <img src="{{ asset('uploads/'.$path.'/'.$row->collage_transcript) }}" class="img-fluid" style="max-width: 80px; max-height: 80px;">
                                 @endif
                             </div>
                             @endif
@@ -540,12 +655,14 @@
                             @if(field('student_collage_certificate')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="collage_certificate">{{ __('field_collage_certificate') }}</label>
-                                <input type="file" class="form-control" name="collage_certificate" id="collage_certificate">
+                                <input type="file" class="form-control" name="collage_certificate" id="collage_certificate" value="{{ old('collage_certificate') }}">
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_collage_certificate') }}
                                 </div>
-                                @if($row->collage_certificate && is_file('uploads/'.$path.'/'.$row->collage_certificate))
-                                    <img src="{{ asset('uploads/'.$path.'/'.$row->collage_certificate) }}" class="img-fluid mt-1" style="max-width: 80px; max-height: 80px;">
+
+                                @if(is_file('uploads/'.$path.'/'.$row->collage_certificate))
+                                    <img src="{{ asset('uploads/'.$path.'/'.$row->collage_certificate) }}" class="img-fluid" style="max-width: 80px; max-height: 80px;">
                                 @endif
                             </div>
                             @endif
@@ -553,12 +670,14 @@
                             @if(field('student_photo')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="photo">{{ __('field_photo') }}: <span>{{ __('image_size', ['height' => 300, 'width' => 300]) }}</span></label>
-                                <input type="file" class="form-control" name="photo" id="photo">
+                                <input type="file" class="form-control" name="photo" id="photo" value="{{ old('photo') }}">
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_photo') }}
                                 </div>
-                                @if($row->photo && is_file('uploads/'.$path.'/'.$row->photo))
-                                    <img src="{{ asset('uploads/'.$path.'/'.$row->photo) }}" class="img-fluid mt-1" style="max-width: 80px; max-height: 80px;">
+
+                                @if(is_file('uploads/'.$path.'/'.$row->photo))
+                                    <img src="{{ asset('uploads/'.$path.'/'.$row->photo) }}" class="img-fluid" style="max-width: 80px; max-height: 80px;">
                                 @endif
                             </div>
                             @endif
@@ -566,12 +685,14 @@
                             @if(field('student_signature')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="signature">{{ __('field_signature') }}: <span>{{ __('image_size', ['height' => 100, 'width' => 300]) }}</span></label>
-                                <input type="file" class="form-control" name="signature" id="signature">
+                                <input type="file" class="form-control" name="signature" id="signature" value="{{ old('signature') }}">
+
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_signature') }}
                                 </div>
-                                @if($row->signature && is_file('uploads/'.$path.'/'.$row->signature))
-                                    <img src="{{ asset('uploads/'.$path.'/'.$row->signature) }}" class="img-fluid mt-1" style="max-width: 80px; max-height: 80px;">
+
+                                @if(is_file('uploads/'.$path.'/'.$row->signature))
+                                    <img src="{{ asset('uploads/'.$path.'/'.$row->signature) }}" class="img-fluid" style="max-width: 80px; max-height: 80px;">
                                 @endif
                             </div>
                             @endif
@@ -628,12 +749,15 @@
             },
             onStepChanging: function (event, currentIndex, newIndex)
             {
+                // Allways allow previous action even if the current form is not valid!
                 if (currentIndex > newIndex)
                 {
                     return true;
                 }
+                // Needed in some cases if the user went back (clean up)
                 if (currentIndex < newIndex)
                 {
+                    // To remove error styles
                     form.find(".body:eq(" + newIndex + ") label.error").remove();
                     form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
                 }
@@ -642,6 +766,7 @@
             },
             onStepChanged: function (event, currentIndex, priorIndex)
             {
+                
             },
             onFinishing: function (event, currentIndex)
             {
@@ -655,6 +780,7 @@
         }).validate({
             errorPlacement: function errorPlacement(error, element) { element.before(error); },
             rules: {
+
             }
         });
     </script>
@@ -662,20 +788,23 @@
     <script type="text/javascript">
     (function ($) {
         "use strict";
+        // add Field
         $(document).on('click', '#addField', function () {
             var html = '';
             html += '<hr/>';
             html += '<div id="inputFormField" class="row">';
-            html += '<div class="form-group col-md-4"><label class="form-label">{{ __('field_relation') }}</label><input type="text" class="form-control" name="relations[]"></div>';
-            html += '<div class="form-group col-md-4"><label class="form-label">{{ __('field_name') }}</label><input type="text" class="form-control" name="relative_names[]"></div>';
-            html += '<div class="form-group col-md-4"><label class="form-label">{{ __('field_occupation') }}</label><input type="text" class="form-control" name="occupations[]"></div>';
-            html += '<div class="form-group col-md-4"><label class="form-label">{{ __('field_phone') }}</label><input type="text" class="form-control" name="relative_phones[]"></div>';
-            html += '<div class="form-group col-md-4"><label class="form-label">{{ __('field_address') }}</label><input type="text" class="form-control" name="addresses[]"></div>';
+            html += '<div class="form-group col-md-4"><label for="relation" class="form-label">{{ __('field_relation') }} <span>*</span></label><input type="text" class="form-control" name="relations[]" id="relation" value="{{ old('relation') }}" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_relation') }}</div></div>';
+            html += '<div class="form-group col-md-4"><label for="relative_name" class="form-label">{{ __('field_name') }} <span>*</span></label><input type="text" class="form-control" name="relative_names[]" id="relative_name" value="{{ old('relative_name') }}" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_name') }}</div></div>';
+            html += '<div class="form-group col-md-4"><label for="occupation" class="form-label">{{ __('field_occupation') }} <span>*</span></label><input type="text" class="form-control" name="occupations[]" id="occupation" value="{{ old('occupation') }}" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_occupation') }}</div></div>';
+            html += '<div class="form-group col-md-4"><label for="relative_phone" class="form-label">{{ __('field_phone') }} <span>*</span></label><input type="text" class="form-control" name="relative_phones[]" id="relative_phone" value="{{ old('relative_phone') }}" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_phone') }}</div></div>';
+            html += '<div class="form-group col-md-4"><label for="address" class="form-label">{{ __('field_address') }} <span>*</span></label><input type="text" class="form-control" name="addresses[]" id="address" value="{{ old('address') }}" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_address') }}</div></div>';
             html += '<div class="form-group col-md-4"><button id="removeField" type="button" class="btn btn-danger btn-filter"><i class="fas fa-trash-alt"></i> {{ __('btn_remove') }}</button></div>';
             html += '</div>';
+
             $('#newField').append(html);
         });
 
+        // remove Field
         $(document).on('click', '#removeField', function () {
             $(this).closest('#inputFormField').remove();
         });
@@ -685,22 +814,26 @@
     <script type="text/javascript">
     (function ($) {
         "use strict";
+        // add Field
         $(document).on('click', '#addDocument', function () {
             var html = '';
             html += '<hr/>';
             html += '<div id="documentFormField" class="row">';
-            html += '<div class="form-group col-md-4"><label class="form-label">{{ __('field_title') }} <span>*</span></label><input type="text" class="form-control" name="titles[]" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_title') }}</div></div>';
-            html += '<div class="form-group col-md-4"><label class="form-label">{{ __('field_document') }} <span>*</span></label><input type="file" class="form-control" name="documents[]" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_document') }}</div></div>';
+            html += '<div class="form-group col-md-4"><label for="title" class="form-label">{{ __('field_title') }} <span>*</span></label><input type="text" class="form-control" name="titles[]" id="title" value="{{ old('title') }}" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_title') }}</div></div>';
+            html += '<div class="form-group col-md-4"><label for="document" class="form-label">{{ __('field_document') }} <span>*</span></label><input type="file" class="form-control" name="documents[]" id="document" value="{{ old('document') }}" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_document') }}</div></div>';
             html += '<div class="form-group col-md-4"><button id="removeDocument" type="button" class="btn btn-danger btn-filter"><i class="fas fa-trash-alt"></i> {{ __('btn_remove') }}</button></div>';
             html += '</div>';
+
             $('#newDocument').append(html);
         });
 
+        // remove Field
         $(document).on('click', '#removeDocument', function () {
             $(this).closest('#documentFormField').remove();
         });
     }(jQuery));
     </script>
+
 
 <!-- Filter Search -->
 @include('common.js.batch_filter')
