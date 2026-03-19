@@ -15,7 +15,7 @@
                     <div class="card-body pb-0">
                         <div class="media user-about-block align-items-center mt-0 mb-3">
                             <div class="position-relative d-inline-block">
-                                @if(is_file('uploads/'.$path.'/'.$row->photo))
+                                @if(is_file(public_path('uploads/'.$path.'/'.$row->photo)))
                                 <img src="{{ asset('uploads/'.$path.'/'.$row->photo) }}" class="img-radius img-fluid wid-80" alt="{{ __('field_photo') }}" onerror="this.src='{{ asset('dashboard/images/user/avatar-2.jpg') }}';">
                                 @else
                                 <img src="{{ asset('dashboard/images/user/avatar-2.jpg') }}" class="img-radius img-fluid wid-80" alt="{{ __('field_photo') }}">
@@ -172,7 +172,7 @@
 
                                     @if(field('application_signature')->status == 1)
                                     <fieldset class="row gx-2 scheduler-border">
-                                        @if(is_file('uploads/'.$path.'/'.$row->signature))
+                                        @if(is_file(public_path('uploads/'.$path.'/'.$row->signature)))
                                         <a href="{{ asset('uploads/'.$path.'/'.$row->signature) }}" data-lightbox="gallery">
                                             <img src="{{ asset('uploads/'.$path.'/'.$row->signature) }}" class="img-fluid field-image">
                                         </a>
@@ -238,7 +238,7 @@
 
         <div class="row">
             @if(field('application_school_transcript')->status == 1)
-                @if(is_file('uploads/'.$path.'/'.$row->school_transcript))
+                @if(is_file(public_path('uploads/'.$path.'/'.$row->school_transcript)))
                 @php($file_ext = pathinfo($row->school_transcript, PATHINFO_EXTENSION))
                 <div class="col-md-3 text-center">
                     @if(in_array($file_ext, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp']))
@@ -251,8 +251,9 @@
                 </div>
                 @endif
             @endif
+
             @if(field('application_school_certificate')->status == 1)
-                @if(is_file('uploads/'.$path.'/'.$row->school_certificate))
+                @if(is_file(public_path('uploads/'.$path.'/'.$row->school_certificate)))
                 @php($file_ext = pathinfo($row->school_certificate, PATHINFO_EXTENSION))
                 <div class="col-md-3 text-center">
                     @if(in_array($file_ext, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp']))
@@ -265,8 +266,9 @@
                 </div>
                 @endif
             @endif
+
             @if(field('application_collage_transcript')->status == 1)
-                @if(is_file('uploads/'.$path.'/'.$row->collage_transcript))
+                @if(is_file(public_path('uploads/'.$path.'/'.$row->collage_transcript)))
                 @php($file_ext = pathinfo($row->collage_transcript, PATHINFO_EXTENSION))
                 <div class="col-md-3 text-center">
                     @if(in_array($file_ext, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp']))
@@ -279,8 +281,9 @@
                 </div>
                 @endif
             @endif
+
             @if(field('application_collage_certificate')->status == 1)
-                @if(is_file('uploads/'.$path.'/'.$row->collage_certificate))
+                @if(is_file(public_path('uploads/'.$path.'/'.$row->collage_certificate)))
                 @php($file_ext = pathinfo($row->collage_certificate, PATHINFO_EXTENSION))
                 <div class="col-md-3 text-center">
                     @if(in_array($file_ext, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp']))
