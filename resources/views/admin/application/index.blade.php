@@ -8,6 +8,11 @@
         <!-- [ Main Content ] start -->
         <div class="row">
             <div class="col-sm-12">
+                @if(session()->has('password'))
+                <div class="alert alert-success">
+                    {{ __('msg_password') }}: {{ session()->get('password') }}
+                </div>
+                @endif
                 <div class="card">
                     <div class="card-header">
                         <h5>{{ $title }} {{ __('list') }}</h5>

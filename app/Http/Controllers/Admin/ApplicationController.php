@@ -268,7 +268,7 @@ class ApplicationController extends Controller
             DB::commit();
 
             Flasher::addSuccess(__('msg_created_successfully'), __('msg_success'));
-            return redirect()->route($this->route . '.index');
+            return redirect()->route($this->route . '.index')->with('password', $password);
 
         } catch (\Exception $e) {
             DB::rollback();
