@@ -57,6 +57,8 @@ class FieldSeeder extends Seeder
             ['slug' => 'student_address', 'status' => '1'],
             ['slug' => 'student_school_info', 'status' => '1'],
             ['slug' => 'student_collage_info', 'status' => '1'],
+            ['slug' => 'student_guardian_details', 'status' => '1'],
+            ['slug' => 'student_academic_info', 'status' => '1'],
             ['slug' => 'student_relatives', 'status' => '1'],
             ['slug' => 'student_school_transcript', 'status' => '1'],
             ['slug' => 'student_school_certificate', 'status' => '1'],

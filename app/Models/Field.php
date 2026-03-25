@@ -20,6 +20,10 @@ class Field extends Model
     {
         $field = Field::where('slug', $slug)->first();
 
+        if(!isset($field)){
+            $field = (object)['status' => '0'];
+        }
+
         return $field;
     }
 }

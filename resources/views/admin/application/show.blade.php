@@ -1,24 +1,37 @@
 @extends('admin.layouts.master')
 @section('title', $title)
+
 @section('page_css')
-<link rel="stylesheet" href="{{ asset('dashboard/plugins/lightbox2-master/css/lightbox.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('dashboard/plugins/lightbox2-master/css/lightbox.min.css') }}">
 @endsection
+
 @section('content')
 
-<!-- Start Content-->
+@php
+    // Define the field() helper function
+    function field($slug) {
+        return \App\Models\Field::field($slug);
+    }
+@endphp
+
 <div class="main-body">
     <div class="page-wrapper">
-        <!-- [ Main Content ] start -->
         <div class="row">
+
+            <!-- Left Sidebar - User Info -->
             <div class="col-md-3">
                 <div class="card user-card user-card-1">
                     <div class="card-body pb-0">
                         <div class="media user-about-block align-items-center mt-0 mb-3">
                             <div class="position-relative d-inline-block">
                                 @if(is_file(public_path('uploads/'.$path.'/'.$row->photo)))
-                                <img src="{{ asset('uploads/'.$path.'/'.$row->photo) }}" class="img-radius img-fluid wid-80" alt="{{ __('field_photo') }}" onerror="this.src='{{ asset('dashboard/images/user/avatar-2.jpg') }}';">
+                                    <img src="{{ asset('uploads/'.$path.'/'.$row->photo) }}" 
+                                         class="img-radius img-fluid wid-80" 
+                                         alt="Photo"
+                                         onerror="this.src='{{ asset('dashboard/images/user/avatar-2.jpg') }}';">
                                 @else
-                                <img src="{{ asset('dashboard/images/user/avatar-2.jpg') }}" class="img-radius img-fluid wid-80" alt="{{ __('field_photo') }}">
+                                    <img src="{{ asset('dashboard/images/user/avatar-2.jpg') }}" 
+                                         class="img-radius img-fluid wid-80" alt="Photo">
                                 @endif
                                 <div class="certificated-badge">
                                     <i class="fas fa-certificate text-primary bg-icon"></i>
@@ -27,44 +40,43 @@
                             </div>
                             <div class="media-body ms-3">
                                 <h6 class="mb-1">{{ $row->first_name }} {{ $row->last_name }}</h6>
-                                @if(isset($row->registration_no))
-                                <p class="mb-0 text-muted">#{{ $row->registration_no }}</p>
+                                @if($row->registration_no)
+                                    <p class="mb-0 text-muted">#{{ $row->registration_no }}</p>
                                 @endif
                             </div>
                         </div>
                     </div>
+
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            <span class="f-w-500"><i class="far fa-envelope m-r-10"></i>{{ __('field_email') }} : </span>
-                            <span class="float-end">{{ $row->email }}</span>
+                            <span class="f-w-500"><i class="far fa-envelope m-r-10"></i>{{ __('field_email') }} :</span>
+                            <span class="float-end">{{ $row->email ?? 'N/A' }}</span>
                         </li>
                         <li class="list-group-item">
-                            <span class="f-w-500"><i class="fas fa-phone-alt m-r-10"></i>{{ __('field_phone') }} : </span>
-                            <span class="float-end">{{ $row->phone }}</span>
+                            <span class="f-w-500"><i class="fas fa-phone-alt m-r-10"></i>{{ __('field_phone') }} :</span>
+                            <span class="float-end">{{ $row->phone ?? 'N/A' }}</span>
                         </li>
                         <li class="list-group-item">
-                            <span class="f-w-500"><i class="fas fa-graduation-cap m-r-10"></i>{{ __('field_program') }} : </span>
-                            <span class="float-end">{{ $row->program->title ?? '' }}</span>
+                            <span class="f-w-500"><i class="fas fa-graduation-cap m-r-10"></i>{{ __('field_program') }} :</span>
+                            <span class="float-end">{{ $row->program->title ?? 'N/A' }}</span>
                         </li>
                         <li class="list-group-item">
-                            <span class="f-w-500"><i class="far fa-calendar-alt m-r-10"></i>{{ __('field_apply_date') }} : </span>
+                            <span class="f-w-500"><i class="far fa-calendar-alt m-r-10"></i>{{ __('field_apply_date') }} :</span>
                             <span class="float-end">
-                                @if(isset($setting->date_format))
-                                {{ date($setting->date_format, strtotime($row->apply_date)) }}
-                                @else
-                                {{ date("Y-m-d", strtotime($row->apply_date)) }}
-                                @endif
+                                {{ isset($setting->date_format) 
+                                    ? date($setting->date_format, strtotime($row->apply_date)) 
+                                    : date('Y-m-d', strtotime($row->apply_date)) }}
                             </span>
                         </li>
                         <li class="list-group-item border-bottom-0">
-                            <span class="f-w-500"><i class="far fa-question-circle m-r-10"></i>{{ __('field_status') }} : </span>
+                            <span class="f-w-500"><i class="far fa-question-circle m-r-10"></i>{{ __('field_status') }} :</span>
                             <span class="float-end">
-                                @if( $row->status == 1 )
-                                <span class="badge badge-pill badge-primary">{{ __('status_pending') }}</span>
-                                @elseif( $row->status == 2 )
-                                <span class="badge badge-pill badge-success">{{ __('status_approved') }}</span>
+                                @if($row->status == 1)
+                                    <span class="badge badge-pill badge-primary">{{ __('status_pending') }}</span>
+                                @elseif($row->status == 2)
+                                    <span class="badge badge-pill badge-success">{{ __('status_approved') }}</span>
                                 @else
-                                <span class="badge badge-pill badge-danger">{{ __('status_rejected') }}</span>
+                                    <span class="badge badge-pill badge-danger">{{ __('status_rejected') }}</span>
                                 @endif
                             </span>
                         </li>
@@ -72,236 +84,162 @@
                 </div>
             </div>
 
-            @php
-                function field($slug){
-                    return \App\Models\Field::field($slug);
-                }
-            @endphp
+            <!-- Main Content -->
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-block">
-                        <div class="">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <fieldset class="row gx-2 scheduler-border">
-                                    @if(field('application_father_name')->status == 1)
-                                    <p><mark class="text-primary">{{ __('field_father_name') }}:</mark> {{ $row->father_name }}</p><hr/>
-                                    @endif
-                                    @if(field('application_father_occupation')->status == 1)
-                                    <p><mark class="text-primary">{{ __('field_father_occupation') }}:</mark> {{ $row->father_occupation }}</p><hr/>
-                                    @endif
-                                    @if(field('application_mother_name')->status == 1)
-                                    <p><mark class="text-primary">{{ __('field_mother_name') }}:</mark> {{ $row->mother_name }}</p><hr/>
-                                    @endif
-                                    @if(field('application_mother_occupation')->status == 1)
-                                    <p><mark class="text-primary">{{ __('field_mother_occupation') }}:</mark> {{ $row->mother_occupation }}</p><hr/>
-                                    @endif
+                        <div class="row gx-2">
 
-                                    <p><mark class="text-primary">{{ __('field_gender') }}:</mark> 
-                                        @if( $row->gender == 1 )
-                                        {{ __('gender_male') }}
-                                        @elseif( $row->gender == 2 )
-                                        {{ __('gender_female') }}
-                                        @elseif( $row->gender == 3 )
-                                        {{ __('gender_other') }}
+                            <!-- Left Column - Personal Info -->
+                            <div class="col-md-4">
+                                @if(field('application_father_name')->status == 1 || field('application_father_occupation')->status == 1 || 
+                                    field('application_mother_name')->status == 1 || field('application_mother_occupation')->status == 1)
+                                    <fieldset class="row scheduler-border">
+                                        @if(field('application_father_name')->status == 1)
+                                            <p><mark class="text-primary">{{ __('field_father_name') }}:</mark> {{ $row->father_name ?? 'N/A' }}</p><hr/>
                                         @endif
-                                    </p><hr/>
-
-                                    <p><mark class="text-primary">{{ __('field_dob') }}:</mark> 
-                                        @if(isset($setting->date_format))
-                                        {{ date($setting->date_format, strtotime($row->dob)) }}
-                                        @else
-                                        {{ date("Y-m-d", strtotime($row->dob)) }}
+                                        @if(field('application_father_occupation')->status == 1)
+                                            <p><mark class="text-primary">{{ __('field_father_occupation') }}:</mark> {{ $row->father_occupation ?? 'N/A' }}</p><hr/>
                                         @endif
-                                    </p><hr/>
-
-                                    @if(field('application_emergency_phone')->status == 1)
-                                    <p><mark class="text-primary">{{ __('field_emergency_phone') }}:</mark> {{ $row->emergency_phone }}</p><hr/>
-                                    @endif
-                                    @if(field('application_religion')->status == 1)
-                                    <p><mark class="text-primary">{{ __('field_religion') }}:</mark> {{ $row->religion }}</p><hr/>
-                                    @endif
-                                    @if(field('application_caste')->status == 1)
-                                    <p><mark class="text-primary">{{ __('field_caste') }}:</mark> {{ $row->caste }}</p><hr/>
-                                    @endif
-                                    @if(field('application_mother_tongue')->status == 1)
-                                    <p><mark class="text-primary">{{ __('field_mother_tongue') }}:</mark> {{ $row->mother_tongue }}</p><hr/>
-                                    @endif
-                                    @if(field('application_nationality')->status == 1)
-                                    <p><mark class="text-primary">{{ __('field_nationality') }}:</mark> {{ $row->nationality }}</p><hr/>
-                                    @endif
-
-                                    @if(field('application_marital_status')->status == 1)
-                                    <p><mark class="text-primary">{{ __('field_marital_status') }}:</mark> 
-                                        @if( $row->marital_status == 1 )
-                                        {{ __('marital_status_single') }}
-                                        @elseif( $row->marital_status == 2 )
-                                        {{ __('marital_status_married') }}
-                                        @elseif( $row->marital_status == 3 )
-                                        {{ __('marital_status_widowed') }}
-                                        @elseif( $row->marital_status == 4 )
-                                        {{ __('marital_status_divorced') }}
-                                        @elseif( $row->marital_status == 5 )
-                                        {{ __('marital_status_other') }}
+                                        @if(field('application_mother_name')->status == 1)
+                                            <p><mark class="text-primary">{{ __('field_mother_name') }}:</mark> {{ $row->mother_name ?? 'N/A' }}</p><hr/>
                                         @endif
-                                    </p><hr/>
-                                    @endif
+                                        @if(field('application_mother_occupation')->status == 1)
+                                            <p><mark class="text-primary">{{ __('field_mother_occupation') }}:</mark> {{ $row->mother_occupation ?? 'N/A' }}</p><hr/>
+                                        @endif>
 
-                                    @if(field('application_blood_group')->status == 1)
-                                    <p><mark class="text-primary">{{ __('field_blood_group') }}:</mark> 
-                                        @if( $row->blood_group == 1 )
-                                        {{ __('A+') }}
-                                        @elseif( $row->blood_group == 2 )
-                                        {{ __('A-') }}
-                                        @elseif( $row->blood_group == 3 )
-                                        {{ __('B+') }}
-                                        @elseif( $row->blood_group == 4 )
-                                        {{ __('B-') }}
-                                        @elseif( $row->blood_group == 5 )
-                                        {{ __('AB+') }}
-                                        @elseif( $row->blood_group == 6 )
-                                        {{ __('AB-') }}
-                                        @elseif( $row->blood_group == 7 )
-                                        {{ __('O+') }}
-                                        @elseif( $row->blood_group == 8 )
-                                        {{ __('O-') }}
+                                        <p><mark class="text-primary">{{ __('field_gender') }}:</mark> 
+                                            @switch($row->gender)
+                                                @case(1) {{ __('gender_male') }} @break
+                                                @case(2) {{ __('gender_female') }} @break
+                                                @case(3) {{ __('gender_other') }} @break
+                                                @default N/A
+                                            @endswitch
+                                        </p><hr/>
+
+                                        <p><mark class="text-primary">{{ __('field_dob') }}:</mark> 
+                                            {{ isset($setting->date_format) 
+                                                ? date($setting->date_format, strtotime($row->dob)) 
+                                                : date('Y-m-d', strtotime($row->dob)) }}
+                                        </p><hr/>
+
+                                        @if(field('application_emergency_phone')->status == 1)
+                                            <p><mark class="text-primary">{{ __('field_emergency_phone') }}:</mark> {{ $row->emergency_phone ?? 'N/A' }}</p><hr/>
                                         @endif
-                                    </p><hr/>
                                     </fieldset>
-                                    @endif
+                                @endif
 
-                                    @if(field('application_signature')->status == 1)
-                                    <fieldset class="row gx-2 scheduler-border">
-                                        @if(is_file(public_path('uploads/'.$path.'/'.$row->signature)))
-                                        <a href="{{ asset('uploads/'.$path.'/'.$row->signature) }}" data-lightbox="gallery">
-                                            <img src="{{ asset('uploads/'.$path.'/'.$row->signature) }}" class="img-fluid field-image">
+                                @if(field('application_signature')->status == 1 && !empty($row->signature))
+                                    <fieldset class="scheduler-border">
+                                        <a href="{{ asset('uploads/'.$path.'/'.$row->signature) }}" data-lightbox="signature">
+                                            <img src="{{ asset('uploads/'.$path.'/'.$row->signature) }}" class="img-fluid" style="max-height: 140px;">
                                         </a>
-                                        @endif
                                     </fieldset>
-                                    @endif
-                                </div>
-                                <div class="col-md-4">
-                                    @if(field('application_national_id')->status == 1 || field('application_passport_no')->status == 1)
-                                    <fieldset class="row gx-2 scheduler-border">
-                                    @if(field('application_national_id')->status == 1)
-                                    <p><mark class="text-primary">{{ __('field_national_id') }}:</mark> {{ $row->national_id }}</p><hr/>
-                                    @endif
-                                    @if(field('application_passport_no')->status == 1)
-                                    <p><mark class="text-primary">{{ __('field_passport_no') }}:</mark> {{ $row->passport_no }}</p>
-                                    @endif
-                                    </fieldset>
-                                    @endif
+                                @endif
+                            </div>
 
-                                    @if(field('application_address')->status == 1)
-                                    <fieldset class="row gx-2 scheduler-border">
-                                    <legend>{{ __('field_present') }} {{ __('field_address') }}</legend>
-                                    <p><mark class="text-primary">{{ __('field_province') }}:</mark> {{ $row->presentProvince->title ?? '' }}</p><hr/>
-                                    <p><mark class="text-primary">{{ __('field_district') }}:</mark> {{ $row->presentDistrict->title ?? '' }}</p><hr/>
-                                    <p><mark class="text-primary">{{ __('field_address') }}:</mark> {{ $row->present_address }}</p>
+                            <!-- Address Column -->
+                            <div class="col-md-4">
+                                @if(field('application_address')->status == 1)
+                                    <fieldset class="scheduler-border">
+                                        <legend>{{ __('field_present') }} {{ __('field_address') }}</legend>
+                                        <p><mark class="text-primary">{{ __('field_province') }}:</mark> {{ $row->presentProvince->title ?? 'N/A' }}</p><hr/>
+                                        <p><mark class="text-primary">{{ __('field_district') }}:</mark> {{ $row->presentDistrict->title ?? 'N/A' }}</p><hr/>
+                                        <p><mark class="text-primary">{{ __('field_address') }}:</mark> {{ $row->present_address ?? 'N/A' }}</p>
                                     </fieldset>
 
-                                    <fieldset class="row gx-2 scheduler-border">
-                                    <legend>{{ __('field_permanent') }} {{ __('field_address') }}</legend>
-                                    <p><mark class="text-primary">{{ __('field_province') }}:</mark> {{ $row->permanentProvince->title ?? '' }}</p><hr/>
-                                    <p><mark class="text-primary">{{ __('field_district') }}:</mark> {{ $row->permanentDistrict->title ?? '' }}</p><hr/>
-                                    <p><mark class="text-primary">{{ __('field_address') }}:</mark> {{ $row->permanent_address }}</p>
+                                    <fieldset class="scheduler-border">
+                                        <legend>{{ __('field_permanent') }} {{ __('field_address') }}</legend>
+                                        <p><mark class="text-primary">{{ __('field_province') }}:</mark> {{ $row->permanentProvince->title ?? 'N/A' }}</p><hr/>
+                                        <p><mark class="text-primary">{{ __('field_district') }}:</mark> {{ $row->permanentDistrict->title ?? 'N/A' }}</p><hr/>
+                                        <p><mark class="text-primary">{{ __('field_address') }}:</mark> {{ $row->permanent_address ?? 'N/A' }}</p>
                                     </fieldset>
-                                    @endif
-                                </div>
-                                <div class="col-md-4">
-                                    @if(field('application_school_info')->status == 1)
-                                    <fieldset class="row gx-2 scheduler-border">
-                                    <legend>{{ __('field_school_information') }}</legend>
-                                    <p><mark class="text-primary">{{ __('field_school_name') }}:</mark> {{ $row->school_name }}</p><hr/>
-                                    <p><mark class="text-primary">{{ __('field_exam_id') }}:</mark> {{ $row->school_exam_id }}</p><hr/>
-                                    <p><mark class="text-primary">{{ __('field_graduation_year') }}:</mark> {{ $row->school_graduation_year }}</p><hr/>
-                                    <p><mark class="text-primary">{{ __('field_graduation_point') }}:</mark> {{ $row->school_graduation_point }}</p><hr/>
+                                @endif
+                            </div>
+
+                            <!-- School & College -->
+                            <div class="col-md-4">
+                                @if(field('application_school_info')->status == 1)
+                                    <fieldset class="scheduler-border">
+                                        <legend>{{ __('field_school_information') }}</legend>
+                                        <p><mark class="text-primary">{{ __('field_school_name') }}:</mark> {{ $row->school_name ?? 'N/A' }}</p><hr/>
+                                        <p><mark class="text-primary">{{ __('field_exam_id') }}:</mark> {{ $row->school_exam_id ?? 'N/A' }}</p><hr/>
+                                        <p><mark class="text-primary">{{ __('field_graduation_year') }}:</mark> {{ $row->school_graduation_year ?? 'N/A' }}</p><hr/>
+                                        <p><mark class="text-primary">{{ __('field_graduation_point') }}:</mark> {{ $row->school_graduation_point ?? 'N/A' }}</p>
                                     </fieldset>
-                                    @endif
-                                    
-                                    @if(field('application_collage_info')->status == 1)
-                                    <fieldset class="row gx-2 scheduler-border">
-                                    <legend>{{ __('field_college_information') }}</legend>
-                                    <p><mark class="text-primary">{{ __('field_collage_name') }}:</mark> {{ $row->collage_name }}</p><hr/>
-                                    <p><mark class="text-primary">{{ __('field_exam_id') }}:</mark> {{ $row->collage_exam_id }}</p><hr/>
-                                    <p><mark class="text-primary">{{ __('field_graduation_year') }}:</mark> {{ $row->collage_graduation_year }}</p><hr/>
-                                    <p><mark class="text-primary">{{ __('field_graduation_point') }}:</mark> {{ $row->collage_graduation_point }}</p><hr/>
+                                @endif
+
+                                @if(field('application_collage_info')->status == 1)
+                                    <fieldset class="scheduler-border">
+                                        <legend>{{ __('field_college_information') }}</legend>
+                                        <p><mark class="text-primary">{{ __('field_collage_name') }}:</mark> {{ $row->collage_name ?? 'N/A' }}</p><hr/>
+                                        <p><mark class="text-primary">{{ __('field_exam_id') }}:</mark> {{ $row->collage_exam_id ?? 'N/A' }}</p><hr/>
+                                        <p><mark class="text-primary">{{ __('field_graduation_year') }}:</mark> {{ $row->collage_graduation_year ?? 'N/A' }}</p><hr/>
+                                        <p><mark class="text-primary">{{ __('field_graduation_point') }}:</mark> {{ $row->collage_graduation_point ?? 'N/A' }}</p>
                                     </fieldset>
-                                    @endif
-                                </div>
+                                @endif
                             </div>
                         </div>
+
+<!-- ====================== DOCUMENTS SECTION ====================== -->
+<div class="row mt-4">
+    <h5 class="mb-3">{{ __('field_documents') }}</h5>
+
+    @php
+        $documentFields = [
+            'school_transcript'   => __('field_school_transcript'),
+            'school_certificate'  => __('field_school_certificate'),
+            'collage_transcript'  => __('field_collage_transcript'),
+            'collage_certificate' => __('field_collage_certificate'),
+        ];
+    @endphp
+
+    <div class="row g-4">
+        @foreach($documentFields as $key => $label)
+            @if(!empty($row->{$key}))
+                @php
+                    $fileName = $row->{$key};
+                    $filePath = 'uploads/' . $path . '/' . $fileName;
+                    $fullPath = public_path($filePath);
+                    $extension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+                @endphp
+
+                @if(file_exists($fullPath))
+                    <div class="col-md-3 col-sm-6 text-center">
+                        @if(in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp']))
+                            <!-- Image -->
+                            <a href="{{ asset($filePath) }}" data-lightbox="gallery" data-title="{{ $label }}">
+                                <img src="{{ asset($filePath) }}" 
+                                     class="img-fluid rounded border shadow-sm" 
+                                     style="max-height: 180px; object-fit: contain;">
+                            </a>
+                        @elseif($extension === 'pdf')
+                            <!-- PDF File -->
+                            <a href="{{ asset($filePath) }}" target="_blank" class="text-decoration-none">
+                                <i class="fas fa-file-pdf fa-5x text-danger mb-3"></i>
+                                <p class="fw-bold text-dark mb-1">{{ $label }}</p>
+                            </a>
+                        @else
+                            <!-- Other files (doc, zip, etc.) -->
+                            <a href="{{ asset($filePath) }}" target="_blank" class="text-decoration-none">
+                                <i class="fas fa-file fa-5x text-secondary mb-3"></i>
+                                <p class="fw-bold text-dark mb-1">{{ $label }}</p>
+                            </a>
+                        @endif
+
+                        <small class="text-muted d-block">{{ $fileName }}</small>
+
+                       
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            @if(field('application_school_transcript')->status == 1)
-                @if(is_file(public_path('uploads/'.$path.'/'.$row->school_transcript)))
-                @php($file_ext = pathinfo($row->school_transcript, PATHINFO_EXTENSION))
-                <div class="col-md-3 text-center">
-                    @if(in_array($file_ext, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp']))
-                    <a href="{{ asset('uploads/'.$path.'/'.$row->school_transcript) }}" data-lightbox="gallery">
-                        <img src="{{ asset('uploads/'.$path.'/'.$row->school_transcript) }}" class="img-fluid">
-                    </a>
-                    @elseif($file_ext == 'pdf')
-                    <a href="{{ asset('uploads/'.$path.'/'.$row->school_transcript) }}" target="_blank"><i class="fas fa-file-pdf"></i> {{ __('field_school_transcript') }}</a>
-                    @endif
-                </div>
                 @endif
             @endif
-
-            @if(field('application_school_certificate')->status == 1)
-                @if(is_file(public_path('uploads/'.$path.'/'.$row->school_certificate)))
-                @php($file_ext = pathinfo($row->school_certificate, PATHINFO_EXTENSION))
-                <div class="col-md-3 text-center">
-                    @if(in_array($file_ext, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp']))
-                    <a href="{{ asset('uploads/'.$path.'/'.$row->school_certificate) }}" data-lightbox="gallery">
-                        <img src="{{ asset('uploads/'.$path.'/'.$row->school_certificate) }}" class="img-fluid">
-                    </a>
-                    @elseif($file_ext == 'pdf')
-                    <a href="{{ asset('uploads/'.$path.'/'.$row->school_certificate) }}" target="_blank"><i class="fas fa-file-pdf"></i> {{ __('field_school_certificate') }}</a>
-                    @endif
-                </div>
-                @endif
-            @endif
-
-            @if(field('application_collage_transcript')->status == 1)
-                @if(is_file(public_path('uploads/'.$path.'/'.$row->collage_transcript)))
-                @php($file_ext = pathinfo($row->collage_transcript, PATHINFO_EXTENSION))
-                <div class="col-md-3 text-center">
-                    @if(in_array($file_ext, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp']))
-                    <a href="{{ asset('uploads/'.$path.'/'.$row->collage_transcript) }}" data-lightbox="gallery">
-                        <img src="{{ asset('uploads/'.$path.'/'.$row->collage_transcript) }}" class="img-fluid">
-                    </a>
-                    @elseif($file_ext == 'pdf')
-                    <a href="{{ asset('uploads/'.$path.'/'.$row->collage_transcript) }}" target="_blank"><i class="fas fa-file-pdf"></i> {{ __('field_collage_transcript') }}</a>
-                    @endif
-                </div>
-                @endif
-            @endif
-
-            @if(field('application_collage_certificate')->status == 1)
-                @if(is_file(public_path('uploads/'.$path.'/'.$row->collage_certificate)))
-                @php($file_ext = pathinfo($row->collage_certificate, PATHINFO_EXTENSION))
-                <div class="col-md-3 text-center">
-                    @if(in_array($file_ext, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp']))
-                    <a href="{{ asset('uploads/'.$path.'/'.$row->collage_certificate) }}" data-lightbox="gallery">
-                        <img src="{{ asset('uploads/'.$path.'/'.$row->collage_certificate) }}" class="img-fluid">
-                    </a>
-                    @elseif($file_ext == 'pdf')
-                    <a href="{{ asset('uploads/'.$path.'/'.$row->collage_certificate) }}" target="_blank"><i class="fas fa-file-pdf"></i> {{ __('field_collage_certificate') }}</a>
-                    @endif
-                </div>
-                @endif
-            @endif
-        </div>
-        
-        <!-- [ Main Content ] end -->
+        @endforeach
     </div>
 </div>
-<!-- End Content-->
+</div>
+
+    </div>
+</div>
 
 @endsection
 

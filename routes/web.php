@@ -21,6 +21,18 @@ Route::middleware(['XSS'])->namespace('Web')->group(function () {
 
     // Application Page Route
     Route::get('/', 'ApplicationController@index')->name('application.index');
+
+    Route::get('/test-mail', function() {
+    try {
+        Mail::raw('This is a test email', function ($message) {
+            $message->to('joy@yopmail.com')
+                    ->subject('Test Email from DIC Webmail');
+        });
+        return 'Mail sent successfully!';
+    } catch (\Exception $e) {
+        return 'Error: ' . $e->getMessage();
+    }
+});
  
     // Home Route
     Route::get('/home', 'HomeController@index')->name('home');

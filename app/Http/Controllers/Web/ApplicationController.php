@@ -62,6 +62,7 @@ class ApplicationController extends Controller
      */
     public function store(Request $request)
     {
+
         // Field Validation
         $request->validate([
             'program' => 'required',

@@ -427,25 +427,15 @@
 
                     {{-- PROGRAM --}}
                     <div class="form-group col-md-6">
-                    <label>{{ __('field_program') }} <span>*</span></label>
-
-                    <select class="form-control program"
-                    name="program"
-                    required>
-
-                    <option value="">{{ __('select') }}</option>
-
-                    @if(optional($row->currentEnroll)->program_id)
-
-                    <option value="{{ $row->currentEnroll->program_id }}" selected>
-                    {{ optional($row->currentEnroll->program)->title ?? 'Selected Program' }}
-                    </option>
-
-                    @endif
-
-                    </select>
+                        <label>{{ __('field_program') }} <span>*</span></label>
+                        <select class="form-control program" name="program" required>
+                            <option value="">{{ __('select') }}</option>
+                            @foreach($programs as $program)
+                                <option value="{{ $program->id }}" {{ old('program', optional($row->currentEnroll)->program_id ?? $row->program_id) == $program->id ? 'selected' : '' }}>{{ $program->title }}</option>
+                            @endforeach
+                        </select>
                     </div>
-
+                    
 
                     {{-- SESSION --}}
                     <div class="form-group col-md-6">
@@ -539,66 +529,67 @@
 
 
                     {{-- ================= GUARDIANS ================= --}}
-                    @if(field('student_relatives')->status == 1)
+                  {{-- ================= GUARDIANS ================= --}}
+                @if(field('student_relatives')->status == 1)
 
-                    <fieldset class="row scheduler-border">
+                <fieldset class="row scheduler-border">
                     <legend>{{ __('field_guardians_information') }}</legend>
 
                     <div class="container-fluid">
 
-                    @foreach($row->relatives as $relative)
+                        @if($row->relatives->isNotEmpty())
+                            @foreach($row->relatives as $relative)
+                            <div id="inputFormField" class="row mb-3">
+                                <div class="col-md-4">
+                                    <label>{{ __('field_relation') }}</label>
+                                    <input type="text" class="form-control" name="relations[]" value="{{ old('relations[]', $relative->relation) }}">
+                                </div>
 
-                    <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label>{{ __('field_name') }}</label>
+                                    <input type="text" class="form-control" name="relative_names[]" value="{{ old('relative_names[]', $relative->name) }}">
+                                </div>
 
-                    <div class="col-md-4">
-                    <label>{{ __('field_relation') }}</label>
-                    <input type="text"
-                    class="form-control"
-                    name="relations[]"
-                    value="{{ $relative->relation }}">
+                                <div class="col-md-4">
+                                    <label>{{ __('field_occupation') }}</label>
+                                    <input type="text" class="form-control" name="occupations[]" value="{{ old('occupations[]', $relative->occupation) }}">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>{{ __('field_phone') }}</label>
+                                    <input type="text" class="form-control" name="relative_phones[]" value="{{ old('relative_phones[]', $relative->phone) }}">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>{{ __('field_address') }}</label>
+                                    <input type="text" class="form-control" name="addresses[]" value="{{ old('addresses[]', $relative->address) }}">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <button type="button" id="removeField" class="btn btn-danger btn-sm mt-4">
+                                        <i class="fas fa-trash-alt"></i> {{ __('btn_remove') }}
+                                    </button>
+                                </div>
+                            </div>
+                            @endforeach
+                        @else
+                            <p class="text-muted">No guardians added yet. You can add them below.</p>
+                        @endif
+
+                        <!-- Add New Guardian Button -->
+                        <div class="form-group mt-3">
+                            <button type="button" id="addField" class="btn btn-info">
+                                <i class="fas fa-plus"></i> {{ __('btn_add_new') }} Guardian
+                            </button>
+                        </div>
+
+                        <!-- Dynamic New Guardian Fields will be appended here -->
+                        <div id="newField"></div>
+
                     </div>
+                </fieldset>
 
-                    <div class="col-md-4">
-                    <label>{{ __('field_name') }}</label>
-                    <input type="text"
-                    class="form-control"
-                    name="relative_names[]"
-                    value="{{ $relative->name }}">
-                    </div>
-
-                    <div class="col-md-4">
-                    <label>{{ __('field_occupation') }}</label>
-                    <input type="text"
-                    class="form-control"
-                    name="occupations[]"
-                    value="{{ $relative->occupation }}">
-                    </div>
-
-                    <div class="col-md-4">
-                    <label>{{ __('field_phone') }}</label>
-                    <input type="text"
-                    class="form-control"
-                    name="relative_phones[]"
-                    value="{{ $relative->phone }}">
-                    </div>
-
-                    <div class="col-md-4">
-                    <label>{{ __('field_address') }}</label>
-                    <input type="text"
-                    class="form-control"
-                    name="addresses[]"
-                    value="{{ $relative->address }}">
-                    </div>
-
-                    </div>
-
-                    @endforeach
-
-                    </div>
-
-                    </fieldset>
-
-                    @endif
+@endif
 
                     </content>
 

@@ -29,7 +29,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LeaveTypeSeeder::class);
         $this->call(ExamTypeSeeder::class);
         $this->call(ResultContributionSeeder::class);
-        
         $this->call(FieldSeeder::class);
         $this->call(SocialSeeder::class);
     }

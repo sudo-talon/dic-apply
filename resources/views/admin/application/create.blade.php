@@ -467,7 +467,7 @@
                             @if(field('application_school_transcript')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="school_transcript">{{ __('field_school_transcript') }} <span>*</span></label>
-                                <input type="file" class="form-control" name="school_transcript" id="school_transcript" value="{{ old('school_transcript') }}" required>
+                                <input type="file" class="form-control" name="school_transcript" id="school_transcript" value="{{ old('school_transcript') }}" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" required>
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_school_transcript') }}
@@ -478,7 +478,7 @@
                             @if(field('application_school_certificate')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="school_certificate">{{ __('field_school_certificate') }} <span>*</span></label>
-                                <input type="file" class="form-control" name="school_certificate" id="school_certificate" value="{{ old('school_certificate') }}" required>
+                                <input type="file" class="form-control" name="school_certificate" id="school_certificate" value="{{ old('school_certificate') }}" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" required>
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_school_certificate') }}
@@ -489,7 +489,7 @@
                             @if(field('application_collage_transcript')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="collage_transcript">{{ __('field_collage_transcript') }} <span>*</span></label>
-                                <input type="file" class="form-control" name="collage_transcript" id="collage_transcript" value="{{ old('collage_transcript') }}" required>
+                                <input type="file" class="form-control" name="collage_transcript" id="collage_transcript" value="{{ old('collage_transcript') }}" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" required>
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_collage_transcript') }}
@@ -500,7 +500,7 @@
                             @if(field('application_collage_certificate')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="collage_certificate">{{ __('field_collage_certificate') }} <span>*</span></label>
-                                <input type="file" class="form-control" name="collage_certificate" id="collage_certificate" value="{{ old('collage_certificate') }}" required>
+                                <input type="file" class="form-control" name="collage_certificate" id="collage_certificate" value="{{ old('collage_certificate') }}" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" required>
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_collage_certificate') }}
@@ -511,7 +511,7 @@
                             @if(field('application_photo')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="photo">{{ __('field_photo') }}: <span>{{ __('image_size', ['height' => 300, 'width' => 300]) }}</span> <span>*</span></label>
-                                <input type="file" class="form-control" name="photo" id="photo" value="{{ old('photo') }}" required>
+                                <input type="file" class="form-control" name="photo" id="photo" value="{{ old('photo') }}" accept=".jpg,.jpeg,.png" required>
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_photo') }}
@@ -522,7 +522,7 @@
                             @if(field('application_signature')->status == 1)
                             <div class="form-group col-md-6">
                                 <label for="signature">{{ __('field_signature') }}: <span>{{ __('image_size', ['height' => 100, 'width' => 300]) }}</span> <span>*</span></label>
-                                <input type="file" class="form-control" name="signature" id="signature" value="{{ old('signature') }}" required>
+                                <input type="file" class="form-control" name="signature" id="signature" value="{{ old('signature') }}" accept=".jpg,.jpeg,.png" required>
 
                                 <div class="invalid-feedback">
                                   {{ __('required_field') }} {{ __('field_signature') }}
