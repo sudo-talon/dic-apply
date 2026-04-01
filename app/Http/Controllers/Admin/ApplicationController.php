@@ -85,7 +85,13 @@ class ApplicationController extends Controller
 
     public function create()
     {
-        throw new NotFoundHttpException();
+        $data['title'] = $this->title;
+        $data['route'] = $this->route;
+        $data['view'] = $this->view;
+
+        $data['provinces'] = Province::where('status', '1')->orderBy('title', 'asc')->get();
+
+        return view($this->view . '.create', $data);
     }
 
     public function store(Request $request)

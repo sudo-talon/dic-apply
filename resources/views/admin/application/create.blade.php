@@ -37,25 +37,13 @@
         <!-- [ Main Content ] start -->
         <div class="card">
             <div class="card-block">
-                <div class="row mt-5 mb-5">
-                    <div class="col-sm-2">
-                        <div class="inner text-center">
-                            @if(is_file('uploads/application-setting/'.$applicationSetting->logo_left))
-                            <img src="{{ asset('uploads/application-setting/'.$applicationSetting->logo_left) }}" class="img-fluid" alt="Logo">
-                            @endif
-                        </div>
-                    </div>
-                    <div class="col-sm-8 text-center">
+                <div class="mt-5 mb-5" style="display: flex; justify-content: space-between; align-items: center;">
+                    <img src="{{ asset('uploads/setting/dic-logo1.png') }}" alt="Logo 1" style="height: 50px;">
+                    <div class="text-center">
                         <h2>{{ $applicationSetting->title }}</h2>
                         <p>{!! strip_tags($applicationSetting->body, '<br><b><i><strong><u><a><span><del>') !!}</p>
                     </div>
-                    <div class="col-sm-2">
-                        <div class="inner text-center">
-                            @if(is_file('uploads/application-setting/'.$applicationSetting->logo_right))
-                            <img src="{{ asset('uploads/application-setting/'.$applicationSetting->logo_right) }}" class="img-fluid" alt="Logo">
-                            @endif
-                        </div>
-                    </div>
+                    <img src="{{ asset('uploads/setting/dic_img2.jpeg') }}" alt="Logo 2" style="height: 60px;">
                 </div>
 
                 {{-- Success Alert --}}
