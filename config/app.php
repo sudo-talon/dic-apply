@@ -183,6 +183,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+
     ],
 
     /*
@@ -245,6 +246,10 @@ return [
         'Clickatell' => Clickatell\ClickatellFacade::class,
         //Paystack
         'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
+
+
     ],
+
+    
 
 ];

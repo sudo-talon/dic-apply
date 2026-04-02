@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c930de21c6037765a2e08da593877e5a",
+    "content-hash": "4732983aa1e2d3dfa20585de6c49f36f",
     "packages": [
         {
             "name": "africastalking/africastalking",
@@ -3548,6 +3548,79 @@
                 "source": "https://github.com/namshi/smscountry/tree/master"
             },
             "time": "2013-12-15T12:33:33+00:00"
+        },
+        {
+            "name": "nerdsnipe/laravel-countries",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NerdSnipe/laravel-countries.git",
+                "reference": "36025c8decae4aaa8393de12142f2f620c94bdd7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NerdSnipe/laravel-countries/zipball/36025c8decae4aaa8393de12142f2f620c94bdd7",
+                "reference": "36025c8decae4aaa8393de12142f2f620c94bdd7",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^9.19|^10.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.14.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.9",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.0",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "LaravelCountries": "NerdSnipe\\LaravelCountries\\Facades\\LaravelCountries"
+                    },
+                    "providers": [
+                        "NerdSnipe\\LaravelCountries\\LaravelCountriesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "NerdSnipe\\LaravelCountries\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "NerdSnipe Inc",
+                    "email": "hello@nerdsnipe.cc",
+                    "homepage": "https://www.nerdsnipe.cc",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Used to add country, state, city selectors to any laravel view. Provides all cities and states for 251 countries",
+            "homepage": "https://github.com/nerdsnipe/laravel-countries",
+            "keywords": [
+                "Laravel-Countries",
+                "NerdSnipe",
+                "country state city dropdown",
+                "country state city dynamic dependent dropdown",
+                "laravel",
+                "laravel city data",
+                "laravel country data",
+                "laravel state data"
+            ],
+            "support": {
+                "issues": "https://github.com/NerdSnipe/laravel-countries/issues",
+                "source": "https://github.com/NerdSnipe/laravel-countries/tree/v1.2.0"
+            },
+            "time": "2023-04-12T10:07:27+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -11070,12 +11143,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.1"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
 }

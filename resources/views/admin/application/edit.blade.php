@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="{{ asset('dashboard/css/pages/wizard.css') }}">
 @endsection
 
+
+
+
 @section('content')
 
 <!-- Start Content-->
@@ -273,40 +276,52 @@
                             </div>
                             </div>
 
-                            @if(field('student_address')->status == 1)
+                           @if(field('student_address')->status == 1)
                             <div class="row">
-                              <div class="col-md-6">
-                                <fieldset class="row scheduler-border">
-                                <legend>{{ __('field_present') }} {{ __('field_address') }}</legend>
-                                @include('common.inc.present_province')
+                                
+                                <!-- Present Address -->
+                                <div class="col-md-6">
+                                    <fieldset class="row scheduler-border">
+                                        <legend>{{ __('field_present') }} {{ __('field_address') }}</legend>
 
-                                <div class="form-group col-md-12">
-                                    <label for="present_address">{{ __('field_address') }}</label>
-                                    <input type="text" class="form-control" name="present_address" id="present_address" value="{{ old('present_address', $row->present_address) }}">
+                                        <x-laravel-countries::select-location 
+                                            field_name="location" 
+                                            class="form-control" 
+                                            :selected-country="$present_country_id ?? null" 
+                                            :selected-state="$present_province_id ?? null" 
+                                            :selected-city="$present_district_id ?? null" />
 
-                                    <div class="invalid-feedback">
-                                      {{ __('required_field') }} {{ __('field_address') }}
-                                    </div>
+                                        <div class="form-group col-md-12 mt-3">
+                                            <label for="present_address">{{ __('field_address') }}</label>
+                                            <input type="text" class="form-control" name="present_address" 
+                                                id="present_address" 
+                                                value="{{ old('present_address', $row->present_address) }}">
+                                        </div>
+                                    </fieldset>
                                 </div>
-                                </fieldset>
-                              </div>
 
-                              <div class="col-md-6">
-                                <fieldset class="row scheduler-border">
-                                <legend>{{ __('field_permanent') }} {{ __('field_address') }}</legend>
+                                <!-- Permanent Address -->
+                                <div class="col-md-6">
+                                    <fieldset class="row scheduler-border">
+                                        <legend>{{ __('field_permanent') }} {{ __('field_address') }}</legend>
 
-                                @include('common.inc.permanent_province')
+                                        <!-- Same component but with different field_name and permanent IDs -->
+                                        <x-laravel-countries::select-location 
+                                            field_name="permanent_location" 
+                                            class="form-control" 
+                                            :selected-country="$permanent_country_id ?? null" 
+                                            :selected-state="$permanent_province_id ?? null" 
+                                            :selected-city="$permanent_district_id ?? null" />
 
-                                <div class="form-group col-md-12">
-                                    <label for="permanent_address">{{ __('field_address') }}</label>
-                                    <input type="text" class="form-control" name="permanent_address" id="permanent_address" value="{{ old('permanent_address', $row->permanent_address) }}">
-
-                                    <div class="invalid-feedback">
-                                      {{ __('required_field') }} {{ __('field_address') }}
-                                    </div>
+                                        <div class="form-group col-md-12 mt-3">
+                                            <label for="permanent_address">{{ __('field_address') }}</label>
+                                            <input type="text" class="form-control" name="permanent_address" 
+                                                id="permanent_address" 
+                                                value="{{ old('permanent_address', $row->permanent_address) }}">
+                                        </div>
+                                    </fieldset>
                                 </div>
-                                </fieldset>
-                              </div>
+
                             </div>
                             @endif
                             <!-- Form End -->
@@ -732,100 +747,160 @@
             headerTag: "h3",
             bodyTag: "content",
             transitionEffect: "slideLeft",
-            labels: 
-            {
+            labels: {
                 finish: "{{ __('btn_finish') }}",
                 next: "{{ __('btn_next') }}",
                 previous: "{{ __('btn_previous') }}",
             },
-            onStepChanging: function (event, currentIndex, newIndex)
-            {
-                // Allways allow previous action even if the current form is not valid!
-                if (currentIndex > newIndex)
-                {
-                    return true;
-                }
-                // Needed in some cases if the user went back (clean up)
-                if (currentIndex < newIndex)
-                {
-                    // To remove error styles
+            onStepChanging: function (event, currentIndex, newIndex) {
+                if (currentIndex > newIndex) return true;
+                if (currentIndex < newIndex) {
                     form.find(".body:eq(" + newIndex + ") label.error").remove();
                     form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
                 }
                 form.validate().settings.ignore = ":disabled,:hidden";
                 return form.valid();
             },
-            onStepChanged: function (event, currentIndex, priorIndex)
-            {
-                
-            },
-            onFinishing: function (event, currentIndex)
-            {
+            onFinishing: function (event, currentIndex) {
                 form.validate().settings.ignore = ":disabled";
                 return form.valid();
             },
-            onFinished: function (event, currentIndex)
-            {
+            onFinished: function (event, currentIndex) {
                 $("#wizard-advanced-form").submit();
             }
         }).validate({
-            errorPlacement: function errorPlacement(error, element) { element.before(error); },
-            rules: {
-
+            errorPlacement: function (error, element) { 
+                element.before(error); 
             }
         });
     </script>
 
+    <!-- Dynamic Guardian Fields -->
     <script type="text/javascript">
     (function ($) {
         "use strict";
-        // add Field
         $(document).on('click', '#addField', function () {
             var html = '';
             html += '<hr/>';
             html += '<div id="inputFormField" class="row">';
-            html += '<div class="form-group col-md-4"><label for="relation" class="form-label">{{ __('field_relation') }} <span>*</span></label><input type="text" class="form-control" name="relations[]" id="relation" value="{{ old('relation') }}" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_relation') }}</div></div>';
-            html += '<div class="form-group col-md-4"><label for="relative_name" class="form-label">{{ __('field_name') }} <span>*</span></label><input type="text" class="form-control" name="relative_names[]" id="relative_name" value="{{ old('relative_name') }}" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_name') }}</div></div>';
-            html += '<div class="form-group col-md-4"><label for="occupation" class="form-label">{{ __('field_occupation') }} <span>*</span></label><input type="text" class="form-control" name="occupations[]" id="occupation" value="{{ old('occupation') }}" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_occupation') }}</div></div>';
-            html += '<div class="form-group col-md-4"><label for="relative_phone" class="form-label">{{ __('field_phone') }} <span>*</span></label><input type="text" class="form-control" name="relative_phones[]" id="relative_phone" value="{{ old('relative_phone') }}" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_phone') }}</div></div>';
-            html += '<div class="form-group col-md-4"><label for="address" class="form-label">{{ __('field_address') }} <span>*</span></label><input type="text" class="form-control" name="addresses[]" id="address" value="{{ old('address') }}" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_address') }}</div></div>';
-            html += '<div class="form-group col-md-4"><button id="removeField" type="button" class="btn btn-danger btn-filter"><i class="fas fa-trash-alt"></i> {{ __('btn_remove') }}</button></div>';
+            html += '<div class="form-group col-md-4"><label class="form-label">{{ __('field_relation') }} <span>*</span></label><input type="text" class="form-control" name="relations[]" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_relation') }}</div></div>';
+            html += '<div class="form-group col-md-4"><label class="form-label">{{ __('field_name') }} <span>*</span></label><input type="text" class="form-control" name="relative_names[]" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_name') }}</div></div>';
+            html += '<div class="form-group col-md-4"><label class="form-label">{{ __('field_occupation') }} <span>*</span></label><input type="text" class="form-control" name="occupations[]" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_occupation') }}</div></div>';
+            html += '<div class="form-group col-md-4"><label class="form-label">{{ __('field_phone') }} <span>*</span></label><input type="text" class="form-control" name="relative_phones[]" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_phone') }}</div></div>';
+            html += '<div class="form-group col-md-4"><label class="form-label">{{ __('field_address') }} <span>*</span></label><input type="text" class="form-control" name="addresses[]" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_address') }}</div></div>';
+            html += '<div class="form-group col-md-4"><button type="button" class="btn btn-danger btn-filter removeField"><i class="fas fa-trash-alt"></i> {{ __('btn_remove') }}</button></div>';
             html += '</div>';
 
             $('#newField').append(html);
         });
 
-        // remove Field
-        $(document).on('click', '#removeField', function () {
+        $(document).on('click', '.removeField', function () {
             $(this).closest('#inputFormField').remove();
         });
     }(jQuery));
     </script>
 
+    <!-- Dynamic Document Fields -->
     <script type="text/javascript">
     (function ($) {
         "use strict";
-        // add Field
         $(document).on('click', '#addDocument', function () {
             var html = '';
             html += '<hr/>';
             html += '<div id="documentFormField" class="row">';
-            html += '<div class="form-group col-md-4"><label for="title" class="form-label">{{ __('field_title') }} <span>*</span></label><input type="text" class="form-control" name="titles[]" id="title" value="{{ old('title') }}" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_title') }}</div></div>';
-            html += '<div class="form-group col-md-4"><label for="document" class="form-label">{{ __('field_document') }} <span>*</span></label><input type="file" class="form-control" name="documents[]" id="document" value="{{ old('document') }}" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_document') }}</div></div>';
-            html += '<div class="form-group col-md-4"><button id="removeDocument" type="button" class="btn btn-danger btn-filter"><i class="fas fa-trash-alt"></i> {{ __('btn_remove') }}</button></div>';
+            html += '<div class="form-group col-md-4"><label class="form-label">{{ __('field_title') }} <span>*</span></label><input type="text" class="form-control" name="titles[]" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_title') }}</div></div>';
+            html += '<div class="form-group col-md-4"><label class="form-label">{{ __('field_document') }} <span>*</span></label><input type="file" class="form-control" name="documents[]" required><div class="invalid-feedback">{{ __('required_field') }} {{ __('field_document') }}</div></div>';
+            html += '<div class="form-group col-md-4"><button type="button" class="btn btn-danger btn-filter removeDocument"><i class="fas fa-trash-alt"></i> {{ __('btn_remove') }}</button></div>';
             html += '</div>';
 
             $('#newDocument').append(html);
         });
 
-        // remove Field
-        $(document).on('click', '#removeDocument', function () {
+        $(document).on('click', '.removeDocument', function () {
             $(this).closest('#documentFormField').remove();
         });
     }(jQuery));
     </script>
 
+    <!-- Filter Search -->
+    @include('common.js.batch_filter')
 
-<!-- Filter Search -->
-@include('common.js.batch_filter')
+    @laravelcountriesjs
+
+    <!-- Location Cascading for Edit Page -->
+    <script>
+    $(document).ready(function () {
+
+        function initializeLocationDropdowns(prefix) {
+            const countrySelect = document.getElementById(prefix + '-country');
+            const stateSelect   = document.getElementById(prefix + '-state');
+            const citySelect    = document.getElementById(prefix + '-city');
+
+            if (!countrySelect || !stateSelect || !citySelect) {
+                console.warn(`Location selects not found for: ${prefix}`);
+                return;
+            }
+
+            // Remove old listeners to prevent duplicates
+            $(countrySelect).off('change');
+            $(stateSelect).off('change');
+
+            // Country change → Load States
+            $(countrySelect).on('change', function () {
+                const countryId = $(this).val();
+                $(stateSelect).empty().append('<option value="">Select State / Province</option>');
+                $(citySelect).empty().append('<option value="">Select City / District</option>');
+
+                if (!countryId) return;
+
+                $.get(`/laravel-countries/states/${countryId}`, function (states) {
+                    states.forEach(state => {
+                        $(stateSelect).append(new Option(state.name, state.id));
+                    });
+
+                    // Re-select saved value
+                    const savedStateId = (prefix === 'location') 
+                        ? {{ $present_province_id ?? 'null' }} 
+                        : {{ $permanent_province_id ?? 'null' }};
+
+                    if (savedStateId) {
+                        $(stateSelect).val(savedStateId).trigger('change');
+                    }
+                }).fail(() => console.error('Failed to load states'));
+            });
+
+            // State change → Load Cities
+            $(stateSelect).on('change', function () {
+                const stateId = $(this).val();
+                $(citySelect).empty().append('<option value="">Select City / District</option>');
+
+                if (!stateId) return;
+
+                $.get(`/laravel-countries/cities/${stateId}`, function (cities) {
+                    cities.forEach(city => {
+                        $(citySelect).append(new Option(city.name, city.id));
+                    });
+
+                    // Re-select saved city
+                    const savedCityId = (prefix === 'location') 
+                        ? {{ $present_district_id ?? 'null' }} 
+                        : {{ $permanent_district_id ?? 'null' }};
+
+                    if (savedCityId) {
+                        $(citySelect).val(savedCityId);
+                    }
+                }).fail(() => console.error('Failed to load cities'));
+            });
+
+            // Trigger initial cascade if a country is already selected (Edit Mode)
+            if (countrySelect.value) {
+                $(countrySelect).trigger('change');
+            }
+        }
+
+        // Initialize both Present and Permanent
+        initializeLocationDropdowns('location');
+        initializeLocationDropdowns('permanent_location');
+    });
+    </script>
 @endsection

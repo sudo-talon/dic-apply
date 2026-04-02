@@ -51,6 +51,25 @@
     <!-- RTL css -->
     <link rel="stylesheet" href="{{ asset('web/css/rtl.css') }}">
     @endif
+    <!-- Script JS -->
+ 	<script src="{{ asset('web/js/vendor/modernizr-3.5.0.min.js') }}"></script>
+    <script src="{{ asset('web/js/vendor/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ asset('web/js/popper.min.js') }}"></script>
+    <script src="{{ asset('web/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('web/js/slick.min.js') }}"></script>
+    <script src="{{ asset('web/js/paroller.js') }}"></script>
+    <script src="{{ asset('web/js/wow.min.js') }}"></script>
+    <script src="{{ asset('web/js/js_isotope.pkgd.min.js') }}"></script>
+    <script src="{{ asset('web/js/imagesloaded.min.js') }}"></script>
+    <script src="{{ asset('web/js/jquery.waypoints.min.js') }}"></script>
+    <script src="{{ asset('web/js/jquery.countdown.min.js') }}"></script>
+    <script src="{{ asset('web/js/jquery.counterup.min.js') }}"></script>
+    <script src="{{ asset('web/js/jquery.scrollUp.min.js') }}"></script>
+    <script src="{{ asset('web/js/jquery.meanmenu.min.js') }}"></script>
+    <script src="{{ asset('web/js/parallax-scroll.js') }}"></script>
+    <script src="{{ asset('web/js/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ asset('web/js/element-in-view.js') }}"></script>
+    <script src="{{ asset('web/js/main.js') }}"></script>
  </head>
 
  <body>
@@ -312,27 +331,6 @@
         </div>
     </footer>
     <!-- footer-end -->
-
-
- 	<!-- Script JS -->
- 	<script src="{{ asset('web/js/vendor/modernizr-3.5.0.min.js') }}"></script>
-    <script src="{{ asset('web/js/vendor/jquery-3.6.0.min.js') }}"></script>
-    <script src="{{ asset('web/js/popper.min.js') }}"></script>
-    <script src="{{ asset('web/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('web/js/slick.min.js') }}"></script>
-    <script src="{{ asset('web/js/paroller.js') }}"></script>
-    <script src="{{ asset('web/js/wow.min.js') }}"></script>
-    <script src="{{ asset('web/js/js_isotope.pkgd.min.js') }}"></script>
-    <script src="{{ asset('web/js/imagesloaded.min.js') }}"></script>
-    <script src="{{ asset('web/js/jquery.waypoints.min.js') }}"></script>
-    <script src="{{ asset('web/js/jquery.countdown.min.js') }}"></script>
-    <script src="{{ asset('web/js/jquery.counterup.min.js') }}"></script>
-    <script src="{{ asset('web/js/jquery.scrollUp.min.js') }}"></script>
-    <script src="{{ asset('web/js/jquery.meanmenu.min.js') }}"></script>
-    <script src="{{ asset('web/js/parallax-scroll.js') }}"></script>
-    <script src="{{ asset('web/js/jquery.magnific-popup.min.js') }}"></script>
-    <script src="{{ asset('web/js/element-in-view.js') }}"></script>
-    <script src="{{ asset('web/js/main.js') }}"></script>
 
  </body>
 </html>

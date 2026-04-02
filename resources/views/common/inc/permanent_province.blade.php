@@ -3,7 +3,7 @@
   <select class="form-control" name="permanent_province" id="permanent_province">
     <option>{{ __('select') }}</option>
     @foreach( $provinces as $province )
-    <option value="{{ $province->id }}" @isset($row) {{ $row->permanent_province == $province->id ? 'selected' : '' }} @endisset>{{ $province->title }}</option>
+    <option value="{{ $province->id }}" @if(isset($row) && $row->permanent_province) {{ $row->permanent_province->id == $province->id ? 'selected' : '' }} @endif>{{ $province->title }}</option>
     @endforeach
   </select>
 

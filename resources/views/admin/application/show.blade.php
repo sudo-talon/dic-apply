@@ -1,3 +1,4 @@
+
 @extends('admin.layouts.master')
 @section('title', $title)
 
@@ -139,24 +140,54 @@
                             </div>
 
                             <!-- Address Column -->
+                          
                             <div class="col-md-4">
                                 @if(field('application_address')->status == 1)
+                                    
+                                    <!-- Present Address -->
                                     <fieldset class="scheduler-border">
                                         <legend>{{ __('field_present') }} {{ __('field_address') }}</legend>
-                                        <p><mark class="text-primary">{{ __('field_province') }}:</mark> {{ $row->presentProvince->title ?? 'N/A' }}</p><hr/>
-                                        <p><mark class="text-primary">{{ __('field_district') }}:</mark> {{ $row->presentDistrict->title ?? 'N/A' }}</p><hr/>
-                                        <p><mark class="text-primary">{{ __('field_address') }}:</mark> {{ $row->present_address ?? 'N/A' }}</p>
+                                        
+                                        <p><mark class="text-primary">{{ __('field_country') }}:</mark> 
+                                            {{ $row->present_country?->name ?? 'N/A' }}
+                                        </p><hr/>
+                                        
+                                        <p><mark class="text-primary">{{ __('field_state') }} / {{ __('field_province') }}:</mark> 
+                                            {{ $row->present_province?->name ?? 'N/A' }}
+                                        </p><hr/>
+                                        
+                                        <p><mark class="text-primary">{{ __('field_city') }} / {{ __('field_district') }}:</mark> 
+                                            {{ $row->present_district?->name ?? 'N/A' }}
+                                        </p><hr/>
+                                        
+                                        <p><mark class="text-primary">{{ __('field_address') }}:</mark> 
+                                            {{ $row->present_address ?? 'N/A' }}
+                                        </p>
                                     </fieldset>
 
+                                    <!-- Permanent Address -->
                                     <fieldset class="scheduler-border">
                                         <legend>{{ __('field_permanent') }} {{ __('field_address') }}</legend>
-                                        <p><mark class="text-primary">{{ __('field_province') }}:</mark> {{ $row->permanentProvince->title ?? 'N/A' }}</p><hr/>
-                                        <p><mark class="text-primary">{{ __('field_district') }}:</mark> {{ $row->permanentDistrict->title ?? 'N/A' }}</p><hr/>
-                                        <p><mark class="text-primary">{{ __('field_address') }}:</mark> {{ $row->permanent_address ?? 'N/A' }}</p>
+                                        
+                                        <p><mark class="text-primary">{{ __('field_country') }}:</mark> 
+                                            {{ $row->permanent_country?->name ?? 'N/A' }}
+                                        </p><hr/>
+                                        
+                                        <p><mark class="text-primary">{{ __('field_province') }}:</mark> 
+                                            {{ $row->permanent_province?->name ?? 'N/A' }}
+                                        </p><hr/>
+                                        
+                                        <p><mark class="text-primary">{{ __('field_district') }}:</mark> 
+                                            {{ $row->permanent_district?->name ?? 'N/A' }}
+                                        </p><hr/>
+                                        
+                                        <p><mark class="text-primary">{{ __('field_address') }}:</mark> 
+                                            {{ $row->permanent_address ?? 'N/A' }}
+                                        </p>
                                     </fieldset>
+
                                 @endif
                             </div>
-
                             <!-- School & College -->
                             <div class="col-md-4">
                                 @if(field('application_school_info')->status == 1)

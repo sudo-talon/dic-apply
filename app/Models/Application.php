@@ -3,24 +3,71 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use NerdSnipe\LaravelCountries\Models\Country;
+
 
 class Application extends Model
 {
     protected $fillable = [
-        'registration_no', 'batch_id', 'program_id', 'apply_date', 'first_name', 'last_name', 
-        'father_name', 'mother_name', 'father_occupation', 'mother_occupation', 'country', 
-        'present_province', 'present_district', 'present_village', 'present_address', 
-        'permanent_province', 'permanent_district', 'permanent_village', 'permanent_address', 
-        'gender', 'dob', 'email', 'phone', 'emergency_phone', 'religion', 'caste', 
-        'mother_tongue', 'marital_status', 'blood_group', 'nationality', 'national_id', 
-        'passport_no', 'school_name', 'school_exam_id', 'school_graduation_year', 
-        'school_graduation_point', 'school_transcript', 'school_certificate', 'collage_name', 
-        'collage_exam_id', 'collage_graduation_year', 'collage_graduation_point', 
-        'collage_transcript', 'collage_certificate', 'photo', 'signature', 'fee_amount', 
-        'pay_status', 'payment_method', 'status', 'created_by', 'updated_by',
+        'registration_no',
+        'batch_id',
+        'program_id',
+        'apply_date',
+        'first_name',
+        'last_name',
+        'father_name',
+        'mother_name',
+        'father_occupation',
+        'mother_occupation',
+        'present_country',
+        'present_province',
+        'present_district',
+        'present_address',
+        'permanent_country',
+        'permanent_province',
+        'permanent_district',
+        'permanent_address',
+        'gender',
+        'dob',
+        'email',
+        'phone',
+        'emergency_phone',
+        'religion',
+        'caste',
+        'mother_tongue',
+        'marital_status',
+        'blood_group',
+        'nationality',
+        'national_id',
+        'passport_no',
+        'school_name',
+        'school_exam_id',
+        'school_graduation_year',
+        'school_graduation_point',
+        'school_transcript',
+        'school_certificate',
+        'collage_name',
+        'collage_exam_id',
+        'collage_graduation_year',
+        'collage_graduation_point',
+        'collage_transcript',
+        'collage_certificate',
+        'photo',
+        'signature',
+        'fee_amount',
+        'pay_status',
+        'payment_method',
+        'status',
+        'created_by',
+        'updated_by',
     ];
 
     // Existing relationships
+    public function student()
+    {
+        return $this->hasOne(Student::class, 'registration_no', 'registration_no');
+    }
+
     public function batch()
     {
         return $this->belongsTo(Batch::class);
@@ -29,6 +76,14 @@ class Application extends Model
     public function program()
     {
         return $this->belongsTo(Program::class);
+    }
+
+        // --- Add all of this new code ---
+
+    // Relationships for Present Address
+    public function presentCountry()
+    {
+        return $this->belongsTo(Country::class, 'present_country');
     }
 
     public function presentProvince()
@@ -41,6 +96,12 @@ class Application extends Model
         return $this->belongsTo(District::class, 'present_district');
     }
 
+    // Relationships for Permanent Address
+    public function permanentCountry()
+    {
+        return $this->belongsTo(Country::class, 'permanent_country');
+    }
+
     public function permanentProvince()
     {
         return $this->belongsTo(Province::class, 'permanent_province');
@@ -51,10 +112,11 @@ class Application extends Model
         return $this->belongsTo(District::class, 'permanent_district');
     }
 
+
     public function documents()
     {
         return $this->belongsToMany(Document::class, 'docables', 'documentable_id', 'document_id')
-                    ->where('documentable_type', self::class);
+            ->where('documentable_type', self::class);
     }
 
     public function statuses()
@@ -74,7 +136,7 @@ class Application extends Model
     public function currentEnroll()
     {
         return $this->hasOne(StudentEnroll::class, 'student_id', 'id')
-                    ->latest('id')                    // get latest enrollment
-                    ->with(['program', 'session', 'semester', 'section']);
+            ->latest('id')                    // get latest enrollment
+            ->with(['program', 'session', 'semester', 'section']);
     }
 }

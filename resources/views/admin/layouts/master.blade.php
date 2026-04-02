@@ -284,5 +284,7 @@
 
     @include('admin.layouts.common.footer_script')
 
+    @stack('scripts')
+
 </body>
 </html>

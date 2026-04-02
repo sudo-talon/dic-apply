@@ -307,7 +307,15 @@
                                 <fieldset class="row scheduler-border">
                                 <legend>{{ __('field_present') }} {{ __('field_address') }}</legend>
                                 
-                                @include('common.inc.present_province')
+                              <x-laravel-countries::select-location 
+                                name="location"
+                                class="form-control"
+                                :labels="[
+                                    'country' => 'Country',
+                                    'state' => 'State',
+                                    'city' => 'City'
+                                ]"
+                            />
 
                                 <div class="form-group col-md-12">
                                     <label for="present_address">{{ __('field_address') }}</label>
@@ -323,8 +331,16 @@
                               <div class="col-md-6">
                                 <fieldset class="row scheduler-border">
                                 <legend>{{ __('field_permanent') }} {{ __('field_address') }}</legend>
-                                
-                                @include('common.inc.permanent_province')
+
+                                <x-laravel-countries::select-location 
+                                    name="permanent_location"
+                                    class="form-control"
+                                    :labels="[
+                                        'country' => 'Country',
+                                        'state' => 'State',
+                                        'city' => 'City'
+                                    ]"
+                                />
 
                                 <div class="form-group col-md-12">
                                     <label for="permanent_address">{{ __('field_address') }}</label>
@@ -546,55 +562,160 @@
 
     <script type="text/javascript">
         "use strict";
-        var form = $("#wizard-advanced-form").show();
 
-        form.steps({
-            headerTag: "h3",
-            bodyTag: "content",
-            transitionEffect: "slideLeft",
-            labels: 
-            {
-                finish: "{{ __('btn_finish') }}",
-                next: "{{ __('btn_next') }}",
-                previous: "{{ __('btn_previous') }}",
-            },
-            onStepChanging: function (event, currentIndex, newIndex)
-            {
-                // Allways allow previous action even if the current form is not valid!
-                if (currentIndex > newIndex)
-                {
-                    return true;
-                }
-                // Needed in some cases if the user went back (clean up)
-                if (currentIndex < newIndex)
-                {
-                    // To remove error styles
-                    form.find(".body:eq(" + newIndex + ") label.error").remove();
-                    form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
-                }
-                form.validate().settings.ignore = ":disabled,:hidden";
-                return form.valid();
-            },
-            onStepChanged: function (event, currentIndex, priorIndex)
-            {
-                
-            },
-            onFinishing: function (event, currentIndex)
-            {
-                form.validate().settings.ignore = ":disabled";
-                return form.valid();
-            },
-            onFinished: function (event, currentIndex)
-            {
-                $("#wizard-advanced-form").submit();
-            }
-        }).validate({
-            errorPlacement: function errorPlacement(error, element) { element.before(error); },
-            rules: {
+        var form = $("#wizard-advanced-form");
 
+if (form.length) {
+    form.show();
+
+    form.steps({
+        headerTag: "h3",
+        bodyTag: "content",
+        transitionEffect: "slideLeft",
+        labels: {
+            finish: "{{ __('btn_finish') }}",
+            next: "{{ __('btn_next') }}",
+            previous: "{{ __('btn_previous') }}",
+        },
+        onStepChanging: function (event, currentIndex, newIndex) {
+            if (currentIndex > newIndex) return true;
+
+            if (currentIndex < newIndex) {
+                form.find(".body:eq(" + newIndex + ") label.error").remove();
+                form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
             }
-        });
+
+            form.validate().settings.ignore = ":disabled,:hidden";
+            return form.valid();
+        },
+        onFinishing: function () {
+            form.validate().settings.ignore = ":disabled";
+            return form.valid();
+        },
+        onFinished: function () {
+            form.off('submit'); // prevent duplicate binding
+            form.submit();
+        }
+    }).validate({
+        errorPlacement: function (error, element) {
+            element.before(error);
+        }
+    });
+}
     </script>
 
+    @laravelcountriesjs
+
+    
+
+<script>
+    window.onerror = function(message, source, lineno, colno, error) {
+    console.warn("JS Error caught:", message);
+    return true; // prevent crash
+};
+    function initializeLocationDropdowns(name) {
+        const countrySelect = document.getElementById(`${name}-country`);
+        const stateSelect = document.getElementById(`${name}-state`);
+        const citySelect = document.getElementById(`${name}-city`);
+
+        // If elements don't exist or are already initialized, do nothing.
+        if (!countrySelect || !stateSelect || !citySelect || countrySelect.dataset.initialized) {
+            return false;
+        }
+
+        console.log(`Found and initializing dropdowns for: ${name}`);
+
+        $(countrySelect).on('change', function () {
+            const countryId = this.value;
+            
+            // Clear the state and city dropdowns using the Select2 method
+            $(stateSelect).empty().append('<option value="">Select State</option>').trigger('change');
+            $(citySelect).empty().append('<option value="">Select City</option>').trigger('change');
+
+            if (!countryId) return;
+
+            fetch(`/laravel-countries/states/${countryId}`)
+                .then(response => response.json())
+                .then(states => {
+                    states.forEach(state => {
+                        // Create a new Option object, the Select2-approved way
+                        var newOption = new Option(state.name, state.id, false, false);
+                        $(stateSelect).append(newOption);
+                    });
+                    // Trigger the change event to tell Select2 to update the UI
+                    $(stateSelect).trigger('change');
+                });
+        });
+
+        $(stateSelect).on('change', function () {
+            const stateId = this.value;
+
+            $(citySelect).empty().append('<option value="">Select City</option>').trigger('change');
+
+            if (!stateId) return;
+
+            fetch(`/laravel-countries/cities/${stateId}`)
+                .then(response => response.json())
+                .then(cities => {
+                    cities.forEach(city => {
+                        var newOption = new Option(city.name, city.id, false, false);
+                        $(citySelect).append(newOption);
+                    });
+                    $(citySelect).trigger('change');
+                });
+        });
+
+        // Mark as initialized to prevent re-attaching listeners
+        countrySelect.dataset.initialized = 'true';
+        return true;
+    }
+$(document).ready(function () {
+
+    function initializeLocationDropdowns(name) {
+        const countrySelect = document.getElementById(`${name}-country`);
+        const stateSelect = document.getElementById(`${name}-state`);
+        const citySelect = document.getElementById(`${name}-city`);
+
+        if (!countrySelect || !stateSelect || !citySelect) return;
+
+        $(countrySelect).off('change').on('change', function () {
+            const countryId = this.value;
+
+            $(stateSelect).empty().append('<option value="">Select State</option>');
+            $(citySelect).empty().append('<option value="">Select City</option>');
+
+            if (!countryId) return;
+
+            fetch(`/laravel-countries/states/${countryId}`)
+                .then(res => res.json())
+                .then(states => {
+                    states.forEach(state => {
+                        $(stateSelect).append(new Option(state.name, state.id));
+                    });
+                });
+        });
+
+        $(stateSelect).off('change').on('change', function () {
+            const stateId = this.value;
+
+            $(citySelect).empty().append('<option value="">Select City</option>');
+
+            if (!stateId) return;
+
+            fetch(`/laravel-countries/cities/${stateId}`)
+                .then(res => res.json())
+                .then(cities => {
+                    cities.forEach(city => {
+                        $(citySelect).append(new Option(city.name, city.id));
+                    });
+                });
+        });
+    }
+
+    // initialize once
+    initializeLocationDropdowns('location');
+    initializeLocationDropdowns('permanent_location');
+});
+</script>
 </body>
 </html>

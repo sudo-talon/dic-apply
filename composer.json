@@ -23,6 +23,7 @@
         "maatwebsite/excel": "^3.1",
         "milon/barcode": "^10.0",
         "namshi/smscountry": "^1.0",
+        "nerdsnipe/laravel-countries": "^1.2",
         "obydul/laraskrill": "^1.2.0",
         "php-flasher/flasher-toastr-laravel": "^1.15",
         "rahulreghunath/textlocal": "^1.0",

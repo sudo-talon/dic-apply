@@ -27,10 +27,10 @@ class ApplicationController extends Controller
     public function __construct()
     {
         // Module Data
-        $this->title    = trans_choice('module_application', 1);
-        $this->route    = 'application';
-        $this->view     = 'admin.application';
-        $this->path     = 'student';
+        $this->title = trans_choice('module_application', 1);
+        $this->route = 'application';
+        $this->view = 'admin.application';
+        $this->path = 'student';
     }
 
     /**
@@ -41,17 +41,17 @@ class ApplicationController extends Controller
     public function index()
     {
         //
-        $data['title']  = $this->title;
-        $data['route']  = $this->route;
-        $data['view']   = $this->view;
-        $data['path']   = $this->path;
+        $data['title'] = $this->title;
+        $data['route'] = $this->route;
+        $data['view'] = $this->view;
+        $data['path'] = $this->path;
 
 
         $data['programs'] = Program::where('status', '1')->orderBy('title', 'asc')->get();
         $data['provinces'] = Province::where('status', '1')->orderBy('title', 'asc')->get();
         $data['applicationSetting'] = ApplicationSetting::where('slug', 'admission')->where('status', '1')->firstOrFail();
 
-        return view($this->view.'.create', $data);
+        return view($this->view . '.create', $data);
     }
 
     /**
@@ -74,11 +74,17 @@ class ApplicationController extends Controller
             'dob' => 'required|date',
             'photo' => 'nullable|image',
             'signature' => 'nullable|image',
+            'location.country_id' => 'nullable|integer',
+            'location.state_id' => 'nullable|integer',
+            'location.city_id' => 'nullable|integer',
+            'permanent_location.country_id' => 'nullable|integer',
+            'permanent_location.state_id' => 'nullable|integer',
+            'permanent_location.city_id' => 'nullable|integer',
         ]);
 
 
         // Insert Data
-        try{
+        try {
             DB::beginTransaction();
 
             $student = new Application;
@@ -92,13 +98,15 @@ class ApplicationController extends Controller
             $student->father_occupation = $request->father_occupation;
             $student->mother_occupation = $request->mother_occupation;
 
-            $student->country = $request->country;
-            $student->present_province = $request->present_province;
-            $student->present_district = $request->present_district;
+
+            $student->present_country = $request->location['country_id'] ?? null;
+            $student->present_province = $request->location['state_id'] ?? null;
+            $student->present_district = $request->location['city_id'] ?? null;
             $student->present_village = $request->present_village;
             $student->present_address = $request->present_address;
-            $student->permanent_province = $request->permanent_province;
-            $student->permanent_district = $request->permanent_district;
+            $student->permanent_country = $request->permanent_location['country_id'] ?? null;
+            $student->permanent_province = $request->permanent_location['state_id'] ?? null;
+            $student->permanent_district = $request->permanent_location['city_id'] ?? null;
             $student->permanent_village = $request->permanent_village;
             $student->permanent_address = $request->permanent_address;
 
@@ -137,14 +145,14 @@ class ApplicationController extends Controller
             $student->registration_no = intval(10000000) + $student->id;
             $student->save();
 
+
             DB::commit();
 
 
             Flasher::addSuccess(__('msg_sent_successfully'), __('msg_success'));
 
-            return redirect()->route($this->route.'.index')->with('success', __('msg_sent_successfully'));
-        }
-        catch(\Exception $e) {
+            return redirect()->route($this->route . '.index')->with('success', __('msg_sent_successfully'));
+        } catch (\Exception $e) {
 
             Flasher::addError(__('msg_created_error'), __('msg_error'));
 

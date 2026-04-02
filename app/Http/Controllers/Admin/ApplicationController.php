@@ -22,6 +22,9 @@ use App\Models\Program;
 use App\Models\Student;
 use App\Models\Batch;
 use Carbon\Carbon;
+use NerdSnipe\LaravelCountries\Models\Country;
+use NerdSnipe\LaravelCountries\Models\State;
+use NerdSnipe\LaravelCountries\Models\City;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ApplicationController extends Controller
@@ -96,7 +99,7 @@ class ApplicationController extends Controller
 
     public function store(Request $request)
     {
-         
+
         $request->validate([
             'student_id' => 'required|unique:students,student_id',
             'batch' => 'required',
@@ -110,6 +113,12 @@ class ApplicationController extends Controller
             'phone' => 'required',
             'gender' => 'required',
             'dob' => 'required|date',
+            'location.country_id' => 'nullable|integer',
+            'location.state_id' => 'nullable|integer',
+            'location.city_id' => 'nullable|integer',
+            'permanent_location.country_id' => 'nullable|integer',
+            'permanent_location.state_id' => 'nullable|integer',
+            'permanent_location.city_id' => 'nullable|integer',
             'admission_date' => 'required|date',
             'photo' => 'nullable|image',
             'signature' => 'nullable|image',
@@ -139,13 +148,8 @@ class ApplicationController extends Controller
                 'emergency_phone',
                 'gender',
                 'dob',
-                'country',
-                'present_province',
-                'present_district',
                 'present_village',
                 'present_address',
-                'permanent_province',
-                'permanent_district',
                 'permanent_village',
                 'permanent_address',
                 'religion',
@@ -166,12 +170,19 @@ class ApplicationController extends Controller
                 'collage_graduation_point'
             ]));
 
+            $student->present_country = $request->location['country_id'] ?? null;
+            $student->present_province = $request->location['state_id'] ?? null;
+            $student->present_district = $request->location['city_id'] ?? null;
+            $student->permanent_country = $request->permanent_location['country_id'] ?? null;
+            $student->permanent_province = $request->permanent_location['state_id'] ?? null;
+            $student->permanent_district = $request->permanent_location['city_id'] ?? null;
+
             $student->password = Hash::make($password);
             $student->password_text = Crypt::encryptString($password);
             $student->status = '1';
             $student->created_by = Auth::guard('web')->user()->id;
 
-            // File Uploads
+
             // SCHOOL TRANSCRIPT
             if ($request->hasFile('school_transcript')) {
                 $file = $this->uploadMedia($request, 'school_transcript', $this->path);
@@ -215,7 +226,7 @@ class ApplicationController extends Controller
             $student->save();
             $applicationData->save();
 
-          
+
 
             // Statuses
             if ($request->has('statuses')) {
@@ -276,26 +287,47 @@ class ApplicationController extends Controller
             Flasher::addSuccess(__('msg_created_successfully'), __('msg_success'));
             return redirect()->route($this->route . '.index')->with('password', $password);
 
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollback();
-            Flasher::addError(__('msg_created_error') . ': ' . $e->getMessage());
-            return redirect()->back();
+
+            // Create a detailed error message with the file and line number
+            $errorMessage = 'Error: ' . $e->getMessage() . ' in ' . basename($e->getFile()) . ' on line ' . $e->getLine();
+
+            // Display the detailed error in the flash message
+            Flasher::addError($errorMessage);
+
+            return redirect()->back()->withInput();
         }
     }
 
-    
+
+
+
 
     public function show(Application $application)
     {
+
         $data['title'] = $this->title;
         $data['route'] = $this->route;
         $data['view'] = $this->view;
         $data['path'] = $this->path;
         $data['access'] = $this->access;
+
+        // Load proper objects using your reliable helper
+        $application->present_country = $this->findLocationObject(\NerdSnipe\LaravelCountries\Models\Country::class, $application->present_country);
+        $application->permanent_country = $this->findLocationObject(\NerdSnipe\LaravelCountries\Models\Country::class, $application->permanent_country);
+
+        $application->present_province = $this->findLocationObject(\NerdSnipe\LaravelCountries\Models\State::class, $application->present_province);
+        $application->permanent_province = $this->findLocationObject(\NerdSnipe\LaravelCountries\Models\State::class, $application->permanent_province);
+
+        $application->present_district = $this->findLocationObject(\NerdSnipe\LaravelCountries\Models\City::class, $application->present_district);
+        $application->permanent_district = $this->findLocationObject(\NerdSnipe\LaravelCountries\Models\City::class, $application->permanent_district);
+
         $data['row'] = $application;
 
         return view($this->view . '.show', $data);
     }
+
 
     public function edit(Application $application)
     {
@@ -305,11 +337,45 @@ class ApplicationController extends Controller
         $data['path'] = $this->path;
 
         $data['provinces'] = Province::where('status', '1')->orderBy('title', 'asc')->get();
-        $data['present_districts'] = District::where('status', '1')->where('province_id', $application->present_province)->orderBy('title', 'asc')->get();
-        $data['permanent_districts'] = District::where('status', '1')->where('province_id', $application->permanent_province)->orderBy('title', 'asc')->get();
         $data['statuses'] = StatusType::where('status', '1')->get();
         $data['batches'] = Batch::where('status', '1')->orderBy('id', 'desc')->get();
         $data['programs'] = Program::where('status', '1')->orderBy('title', 'asc')->get();
+
+        // === Raw IDs for form pre-selection and cascading dropdowns ===
+        $present_country_id = $application->present_country;
+        $present_province_id = $application->present_province;
+        $present_district_id = $application->present_district;
+
+        $permanent_country_id = $application->permanent_country;
+        $permanent_province_id = $application->permanent_province;
+        $permanent_district_id = $application->permanent_district;
+
+        // Load human-readable objects using your helper (for display if needed)
+        $application->present_country = $this->findLocationObject(\NerdSnipe\LaravelCountries\Models\Country::class, $present_country_id);
+        $application->present_province = $this->findLocationObject(\NerdSnipe\LaravelCountries\Models\State::class, $present_province_id);
+        $application->present_district = $this->findLocationObject(\NerdSnipe\LaravelCountries\Models\City::class, $present_district_id);
+
+        $application->permanent_country = $this->findLocationObject(\NerdSnipe\LaravelCountries\Models\Country::class, $permanent_country_id);
+        $application->permanent_province = $this->findLocationObject(\NerdSnipe\LaravelCountries\Models\State::class, $permanent_province_id);
+        $application->permanent_district = $this->findLocationObject(\NerdSnipe\LaravelCountries\Models\City::class, $permanent_district_id);
+
+        // Pass raw IDs to blade for pre-selecting in the component
+        $data['present_country_id'] = $present_country_id;
+        $data['present_province_id'] = $present_province_id;
+        $data['present_district_id'] = $present_district_id;
+
+        $data['permanent_country_id'] = $permanent_country_id;
+        $data['permanent_province_id'] = $permanent_province_id;
+        $data['permanent_district_id'] = $permanent_district_id;
+
+        // Load districts for cascading (based on saved province)
+        $data['present_districts'] = District::where('status', '1')
+            ->where('province_id', $present_province_id)
+            ->orderBy('title', 'asc')->get();
+
+        $data['permanent_districts'] = District::where('status', '1')
+            ->where('province_id', $permanent_province_id)
+            ->orderBy('title', 'asc')->get();
 
         $data['row'] = $application->load([
             'statuses',
@@ -321,20 +387,118 @@ class ApplicationController extends Controller
             'currentEnroll.section'
         ]);
 
-        // For cascading dropdowns in edit mode
+        // Cascading for enroll section
         if ($application->currentEnroll) {
             $enroll = $application->currentEnroll;
-            $data['sessions'] = \App\Models\Session::where('program_id', $enroll->program_id)->get();
-            $data['semesters'] = \App\Models\Semester::where('program_id', $enroll->program_id)->get();
-            $data['sections'] = \App\Models\Section::where('semester_id', $enroll->semester_id)->get();
+            $program = $enroll->program; // Get the loaded program
+
+            // Use the relationships defined in the Program model
+            $data['sessions'] = $program ? $program->sessions : collect();
+            $data['semesters'] = $program ? $program->semesters : collect();
+
+            // Correctly fetch sections through the semester's relationship
+            $semester = $enroll->semester;
+            $data['sections'] = $semester ? $semester->programSections->pluck('section') : collect();
         } else {
             $data['sessions'] = $data['semesters'] = $data['sections'] = collect();
         }
 
         return view($this->view . '.edit', $data);
     }
+   public function update(Request $request, Application $application)
+{
+    $request->validate([
+        'first_name' => 'required',
+        'last_name'  => 'required',
+        'email'      => 'required|email|unique:students,email,' . ($application->student?->id ?? 'NULL'),
+        'phone'      => 'required',
+        'gender'     => 'required',
+        'dob'        => 'required|date',
+        'student_id' => 'nullable|unique:students,student_id,' . ($application->student?->id ?? 'NULL'),
+    ]);
 
-    public function update(Request $request, Application $application)
+    // Update Application
+    $application->update([
+        'first_name'         => $request->first_name,
+        'last_name'          => $request->last_name,
+        'father_name'        => $request->father_name,
+        'mother_name'        => $request->mother_name,
+        'father_occupation'  => $request->father_occupation,
+        'mother_occupation'  => $request->mother_occupation,
+        'email'              => $request->email,
+        'phone'              => $request->phone,
+        'emergency_phone'    => $request->emergency_phone,
+        'gender'             => $request->gender,
+        'dob'                => $request->dob,
+        'marital_status'     => $request->marital_status,
+        'blood_group'        => $request->blood_group,
+        'religion'           => $request->religion,
+        'nationality'        => $request->nationality,
+        'national_id'        => $request->national_id,
+        'passport_no'        => $request->passport_no,
+
+        'present_address'    => $request->present_address,
+        'permanent_address'  => $request->permanent_address,
+        'present_village'    => $request->present_village,
+        'permanent_village'  => $request->permanent_village,
+
+        // Correct reading from component
+        'present_country'    => $request->input('location.country_id'),
+        'present_province'   => $request->input('location.state_id'),
+        'present_district'   => $request->input('location.city_id'),
+
+        'permanent_country'  => $request->input('permanent_location.country_id'),
+        'permanent_province' => $request->input('permanent_location.state_id'),
+        'permanent_district' => $request->input('permanent_location.city_id'),
+    ]);
+
+    // Sync everything to Student table
+    if ($student = $application->student) {
+        $student->update([
+            'first_name'         => $application->first_name,
+            'last_name'          => $application->last_name,
+            'father_name'        => $application->father_name,
+            'mother_name'        => $application->mother_name,
+            'father_occupation'  => $application->father_occupation,
+            'mother_occupation'  => $application->mother_occupation,
+            'email'              => $application->email,
+            'phone'              => $application->phone,
+            'emergency_phone'    => $application->emergency_phone,
+            'gender'             => $application->gender,
+            'dob'                => $application->dob,
+            'marital_status'     => $application->marital_status,
+            'blood_group'        => $application->blood_group,
+            'religion'           => $application->religion,
+            'nationality'        => $application->nationality,
+            'national_id'        => $application->national_id,
+            'passport_no'        => $application->passport_no,
+
+            'present_country'    => $application->present_country,
+            'present_province'   => $application->present_province,
+            'present_district'   => $application->present_district,
+            'present_village'    => $application->present_village,
+            'present_address'    => $application->present_address,
+
+            'permanent_country'  => $application->permanent_country,
+            'permanent_province' => $application->permanent_province,
+            'permanent_district' => $application->permanent_district,
+            'permanent_village'  => $application->permanent_village,
+            'permanent_address'  => $application->permanent_address,
+        ]);
+
+        // Update student_id only if changed
+        if ($request->filled('student_id') && $request->student_id != $student->student_id) {
+            $student->student_id = $request->student_id;
+            $student->save();
+        }
+    }
+
+    Flasher::addSuccess(trans_choice('action_updated', 1, ['type' => $this->title]));
+
+    return redirect()->back();
+}
+
+    public function updateStatus(Request $request, Application $application)
     {
         if ($application->status == 0) {
             $application->status = '1';
@@ -344,10 +508,44 @@ class ApplicationController extends Controller
         $application->updated_by = Auth::guard('web')->user()->id;
         $application->save();
 
+
         Flasher::addSuccess(__('msg_updated_successfully'), __('msg_success'));
         return redirect()->back();
     }
 
+    private static $locationCache = [];
+
+    private function findLocationObject($model, $id)
+    {
+        if (!$id)
+            return null;
+
+        $key = $model . ':' . $id;
+
+        if (isset(self::$locationCache[$key])) {
+            return self::$locationCache[$key];
+        }
+
+        if ($model === \NerdSnipe\LaravelCountries\Models\Country::class) {
+            $path = storage_path('app/laravel-countries/countries.json');
+            if (!file_exists($path)) {
+                // Log error or throw meaningful exception in production
+                return null;
+            }
+            $allRecords = collect(json_decode(file_get_contents($path), true));
+        } else {
+            $allRecords = collect((new $model())->all());
+        }
+
+        $found = $allRecords->first(function ($record) use ($id) {
+            return (is_array($record) ? $record['id'] : ($record->id ?? null)) == $id;
+        });
+
+        $result = $found ? (object) $found : null;
+        self::$locationCache[$key] = $result;
+
+        return $result;
+    }
     public function destroy(Application $application)
     {
         DB::beginTransaction();
